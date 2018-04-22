@@ -1,3 +1,6 @@
+h1 Questions list
+- @questions.each do |question|
+  p = question.title
 p = link_to 'Ask question', new_question_path
 - if current_user
   p = link_to 'Log out', destroy_user_session_path, method: :delete
