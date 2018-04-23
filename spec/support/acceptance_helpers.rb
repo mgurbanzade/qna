@@ -13,4 +13,12 @@ module AcceptanceHelper
     fill_in 'Password confirmation', with: '12345678'
     click_on 'Sign up'
   end
+
+  def create_question
+    visit questions_path
+    click_on 'Ask question'
+    fill_in 'Title', with: 'Test question'
+    fill_in 'Body', with: 'mytext mytext'
+    click_on 'Create'
+  end
 end

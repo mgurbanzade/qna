@@ -1,0 +1,3 @@
+- if resource.present? && resource.errors.any?
+  - resource.errors.full_messages.each do |msg|
+    p = msg
