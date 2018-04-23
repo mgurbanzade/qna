@@ -21,4 +21,10 @@ module AcceptanceHelper
     fill_in 'Body', with: 'mytext mytext'
     click_on 'Create'
   end
+
+  def create_answer
+    visit question_path
+    fill_in 'Body', with: 'My answer'
+    click_on 'Reply'
+  end
 end

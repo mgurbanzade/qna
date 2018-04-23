@@ -1,12 +1,16 @@
 class AnswersController < ApplicationController
-  before_action :find_question, only: [:new, :create]
-
-  def new
-    @answer = @question.answers.new(answer_params)
-  end
+  before_action :authenticate_user!, only: :create
+  before_action :find_question, only: :create
 
   def create
-    @answer = @question.answers.create(answer_params)
+    @answer = @question.answers.new(answer_params)
+
+    if @answer.save
+      flash[:notice] = 'The answer is successfully created.'
+      redirect_to @question
+    else
+      render 'questions/show'
+    end
   end
 
   private
