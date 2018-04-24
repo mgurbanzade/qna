@@ -1,7 +1,11 @@
 FactoryBot.define do
+  sequence :title do |n|
+    "RandomTitleText#{n}"
+  end
+
   factory :question do
-    title "MyString"
-    body "MyString"
+    title
+    body
   end
 
   factory :invalid_question, class: 'Question' do

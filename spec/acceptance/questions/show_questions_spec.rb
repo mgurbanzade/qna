@@ -7,8 +7,10 @@ feature 'Index questions', %q{
   given(:user) { create(:user) }
 
   scenario 'User tries to check questions list' do
-    question = create(:question, user: user)
+    questions = create_list(:question, 3, user: user)
     visit questions_path
-    expect(page).to have_content question.title
+    expect(page).to have_content questions[0].title
+    expect(page).to have_content questions[1].title
+    expect(page).to have_content questions[2].title
   end
 end

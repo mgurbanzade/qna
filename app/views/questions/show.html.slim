@@ -5,7 +5,7 @@ p = @question.body
   div
     p
       = answer.body
-      - if answer.user == current_user
+      - if current_user&.author_of?(answer)
         = link_to 'Delete', [@question, answer], method: :delete, data: { confirm: 'Are you sure?' }
 
 = form_with model: [@question, @answer], local: true do |f|

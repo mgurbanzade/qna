@@ -16,12 +16,9 @@ feature 'Delete question', %q{
   end
 
   scenario 'Authenticated user tries to delete not his own question' do
-    sign_in(user)
-    create_question
-    visit questions_path
-    click_on 'Log out'
-    click_on 'Ask question'
-    sign_up(user)
+    question = create(:question, user: user)
+    user2 = create(:user)
+    sign_in(user2)
     visit questions_path
     expect(page).to_not have_content 'Delete'
   end

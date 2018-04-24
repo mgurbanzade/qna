@@ -52,11 +52,22 @@ RSpec.describe QuestionsController, type: :controller do
       it 'saves the new question in the database' do
         expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
       end
+
+      it 'redirects to index view' do
+        post :create, params: { question: attributes_for(:question) }
+        expect(response).to redirect_to questions_path
+        expect(flash[:notice]).to eq 'Question is successfully created.'
+      end
     end
 
     context 'with invalid attributes' do
       it 'does not save the question' do
         expect { post :create, params: { question: attributes_for(:invalid_question) } }.to_not change(Question, :count)
+      end
+
+      it 'redirects to new view' do
+        post :create, params: { question: attributes_for(:invalid_question) }
+        expect(response).to render_template :new
       end
     end
   end
@@ -67,6 +78,27 @@ RSpec.describe QuestionsController, type: :controller do
     context 'delete own question' do
       it "deletes user's own question" do
         expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      end
+
+      it 'redirects to index view' do
+        delete :destroy, params: { id: question }
+        expect(response).to redirect_to questions_path
+      end
+    end
+
+    context 'delete not own question' do
+      before do
+        @random_user = create(:user)
+        @random_question = create(:question, user: @random_user)
+      end
+
+      it 'tries to delete not user\'s own questions' do
+        expect { delete :destroy, params: { id: @random_question } }.to_not change(Question, :count)
+      end
+
+      it 'redirects to index view' do
+        delete :destroy, params: { id: @random_question }
+        expect(response).to redirect_to questions_path
       end
     end
   end

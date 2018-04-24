@@ -26,8 +26,12 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy
-    flash[:notice] = 'The question is successfully deleted.'
+    if current_user.author_of?(@question)
+      @question.destroy
+      flash[:notice] = 'The question is successfully deleted.'
+    else
+      flash[:alert] = 'Action prohibited. You\'re allowed to delete only your own questions.'
+    end
     redirect_to questions_path
   end
 
