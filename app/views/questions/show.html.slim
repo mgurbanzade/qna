@@ -2,7 +2,11 @@ h1 = @question.title
 p = @question.body
 
 - @question.answers.each do |answer|
-  p = answer.body
+  div
+    p
+      = answer.body
+      - if answer.user == current_user
+        = link_to 'Delete', [@question, answer], method: :delete, data: { confirm: 'Are you sure?' }
 
 = form_with model: [@question, @answer], local: true do |f|
   = render 'shared/errors', resource: @answer
