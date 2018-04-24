@@ -60,4 +60,14 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'DELETE #destroy' do
+    before { question }
+
+    context 'delete own question' do
+      it "deletes user's own question" do
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      end
+    end
+  end
 end
