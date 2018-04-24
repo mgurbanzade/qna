@@ -11,20 +11,17 @@ feature 'Create answer', %q{
   scenario 'Authenticated user creates answer' do
     sign_in(user)
     visit question_path(question)
-    fill_in 'Body', with: 'My answer'
-    click_on 'Reply'
+    create_answer
     expect(page).to have_content 'The answer is successfully created.'
   end
 
   scenario 'Non-authenticated user tries to create answer' do
     visit question_path(question)
-    fill_in 'Body', with: 'My answer'
-    click_on 'Reply'
-
+    create_answer
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
 
-  scenario 'Authenticated user tries to create question with incorrect attributes' do
+  scenario 'Authenticated user tries to create answer with incorrect attributes' do
     sign_in(user)
     visit question_path(question)
     fill_in 'Body', with: ''
@@ -32,7 +29,7 @@ feature 'Create answer', %q{
     expect(page).to have_content "Body can't be blank"
   end
 
-  scenario 'Non-authenticated user tries to create question with incorrect attributes' do
+  scenario 'Non-authenticated user tries to create answer with incorrect attributes' do
     visit question_path(question)
     fill_in 'Body', with: ''
     click_on 'Reply'

@@ -23,7 +23,6 @@ module AcceptanceHelper
   end
 
   def create_answer
-    visit question_path
     fill_in 'Body', with: 'My answer'
     click_on 'Reply'
   end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Show questions', %q{
+feature 'Index questions', %q{
   User can see questions list
 } do
 
