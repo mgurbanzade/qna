@@ -50,12 +50,16 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with valid attributes' do
       it 'saves the new question in the database' do
-        expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
+        expect { post :create, params: { question: attributes_for(:question) } }.to change(@user.questions, :count).by(1)
       end
 
       it 'redirects to index view' do
         post :create, params: { question: attributes_for(:question) }
         expect(response).to redirect_to questions_path
+      end
+
+      it 'renders a flash message' do
+        post :create, params: { question: attributes_for(:question) }
         expect(flash[:notice]).to eq 'Question is successfully created.'
       end
     end

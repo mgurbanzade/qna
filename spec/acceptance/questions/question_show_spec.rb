@@ -5,15 +5,17 @@ feature 'Question show', %q{
 } do
 
   given(:user) { create(:user) }
+  given(:question) { create(:question, user: user) }
+  given!(:answers) { create_list(:answer, 3, question: question, user: user) }
 
   scenario 'User tries to check the question page' do
-    question = create(:question, user: user)
-    answers = create_list(:answer, 3, question: question, user: user)
     visit question_path(question)
     expect(page).to have_content question.body
-    expect(page).to have_content answers[0].body
-    expect(page).to have_content answers[1].body
-    expect(page).to have_content answers[2].body
+
+    answers.each do |answer|
+      expect(page).to have_content answer.body
+    end
+
     expect(current_path).to eq question_path(question)
   end
 end

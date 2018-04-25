@@ -6,19 +6,25 @@ feature 'Delete question', %q{
 } do
 
   given(:user) { create(:user) }
-  let(:question) { create(:question, user: user) }
+  given(:question) { create(:question, user: user) }
 
   scenario 'Authenticated user deletes his question' do
     sign_in(user)
     create_question
     click_on 'Delete'
     expect(page).to have_content 'The question is successfully deleted.'
+    expect(page).to_not have_content question.title
+    expect(page).to_not have_content question.body
   end
 
   scenario 'Authenticated user tries to delete not his own question' do
-    question = create(:question, user: user)
     user2 = create(:user)
     sign_in(user2)
+    visit questions_path
+    expect(page).to_not have_content 'Delete'
+  end
+
+  scenario 'Non-authenticated user tries to delete a question' do
     visit questions_path
     expect(page).to_not have_content 'Delete'
   end

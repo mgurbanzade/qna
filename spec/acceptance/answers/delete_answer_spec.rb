@@ -6,23 +6,25 @@ feature 'Delete answer', %q{
 } do
 
   given(:user) { create(:user) }
-  let(:question) { create(:question, user: user) }
+  given(:question) { create(:question, user: user) }
+  given!(:answer) { create(:answer, question: question, user: user) }
 
   scenario 'Authenticated user deletes his answer' do
     sign_in(user)
-    question = create(:question, user: user)
-    answer = create(:answer, question: question, user: user)
     visit question_path(question)
     click_on 'Delete'
     expect(page).to have_content 'The answer is successfully deleted.'
-    expect(page).to_not have_content 'My answer'
+    expect(page).to_not have_content answer.body
   end
 
   scenario 'Authenticated user tries to delete not his own answer' do
-    question = create(:question, user: user)
-    answer = create(:answer, question: question, user: user)
     user2 = create(:user)
     sign_in(user2)
+    visit question_path(question)
+    expect(page).to_not have_content 'Delete'
+  end
+
+  scenario 'Non-authenticated user tries to delete an answer' do
     visit question_path(question)
     expect(page).to_not have_content 'Delete'
   end
