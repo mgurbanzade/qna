@@ -1,12 +1,29 @@
 class AnswersController < ApplicationController
-  before_action :find_question, only: [:new, :create]
-
-  def new
-    @answer = @question.answers.new(answer_params)
-  end
+  before_action :authenticate_user!, only: :create
+  before_action :find_question, only: [:create, :destroy]
 
   def create
-    @answer = @question.answers.create(answer_params)
+    @answer = @question.answers.new(answer_params)
+    @answer.user = current_user
+
+    if @answer.save
+      flash[:notice] = 'The answer is successfully created.'
+      redirect_to @question
+    else
+      render 'questions/show'
+    end
+  end
+
+  def destroy
+    @answer = Answer.find(params[:id])
+
+    if current_user.author_of?(@answer)
+      @answer.destroy
+      flash[:notice] = 'The answer is successfully deleted.'
+    else
+      flash[:alert] = 'Action prohibited. You\'re allowed to delete only your own answers.'
+    end
+    redirect_to @answer.question
   end
 
   private
