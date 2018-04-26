@@ -1,16 +1,12 @@
 h1 = @question.title
 p = @question.body
 
-- @question.answers.each do |answer|
-  div
-    p
-      = answer.body
-      - if current_user&.author_of?(answer)
-        = link_to 'Delete', [@question, answer], method: :delete, data: { confirm: 'Are you sure?' }
+.errors
+.answers
+  = render @question.answers
 
-= form_with model: [@question, @answer], local: true do |f|
+= form_with model: [@question, @answer] do |f|
   = render 'shared/errors', resource: @answer
   p = f.label :body
-  = f.text_area :body, resize: 'disable', cols: 10, rows: 10
+  = f.text_area :body, resize: 'disable', cols: 10, rows: 10, class: 'input_body'
   p = f.submit 'Reply'
-
