@@ -1,0 +1,5 @@
+div
+  p
+    = answer.body
+    - if current_user&.author_of?(answer)
+      = link_to 'Delete', [@question, answer], method: :delete, data: { confirm: 'Are you sure?' }

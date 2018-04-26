@@ -13,6 +13,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'slim-rails'
 gem 'devise'
+gem 'jquery-rails'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -32,6 +33,7 @@ group :test do
   gem 'shoulda-matchers'
   gem 'rails-controller-testing'
   gem 'launchy'
+  gem 'database_cleaner'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
