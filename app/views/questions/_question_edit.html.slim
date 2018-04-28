@@ -1,0 +1,17 @@
+= form_with model: @question, class: 'question_edit-form' do |f|
+  = render 'shared/errors', resource: @question
+  .question_title-container
+    h1.question_attr = @question.title
+    - if current_user&.author_of?(@question)
+      = link_to 'Edit question', '#', class: 'question_edit-btn'
+    .question_edit-input
+      p = f.label :title
+      = f.text_field :title, class: 'input_title'
+  .question_body
+    .question_attr = @question.body
+    .question_edit-input
+      p = f.label :body
+      = f.text_area :body, resize: 'disable', cols: 10, rows: 10, class: 'input_body'
+  = f.submit 'Update', class: 'question_submit-form'
+
+

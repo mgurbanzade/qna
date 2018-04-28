@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :find_question, only: [:show, :destroy]
+  before_action :find_question, only: [:show, :update, :destroy]
 
   def index
     @questions = Question.all
@@ -22,6 +22,14 @@ class QuestionsController < ApplicationController
       redirect_to questions_path
     else
       render :new
+    end
+  end
+
+  def update
+    if current_user.author_of?(@question)
+      @question.update(question_params)
+    else
+      flash[:alert] = 'Action prohibited. You\'re allowed to edit only your own questions.'
     end
   end
 
