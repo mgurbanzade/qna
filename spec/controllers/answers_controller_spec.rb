@@ -66,25 +66,25 @@ RSpec.describe AnswersController, type: :controller do
 
 
   describe 'DELETE #destroy' do
-    context 'delete own answer' do
+    context 'attempt to delete own answer' do
       it 'deletes user\'s own answer' do
-        expect { delete :destroy, params: { id: answer.id, question_id: question.id } }.to change(Answer, :count).by(-1)
+        expect { delete :destroy, params: { id: answer.id, question_id: question.id }, format: :js }.to change(Answer, :count).by(-1)
       end
 
-      it 'redirects to @answer.question show view' do
-        delete :destroy, params: { id: answer, question_id: question }
-        expect(response).to redirect_to question_path(answer.question)
+      it 'renders destroy template' do
+        delete :destroy, params: { id: answer, question_id: question.id  }, format: :js
+        expect(response).to render_template :destroy
       end
     end
 
-    context 'delete not own answer' do
-      it 'tries to delete not user\'s own answers' do
-        expect { delete :destroy, params: { id: random_answer, question_id: question } }.to_not change(Answer, :count)
+    context ' attempt to delete not own answer' do
+      it 'does not delete other user\'s answer' do
+        expect { delete :destroy, params: { id: random_answer, question_id: question.id }, format: :js }.to_not change(Answer, :count)
       end
 
-      it 'redirects to random_answer.question show view' do
-        delete :destroy, params: { id: random_answer, question_id: question }
-        expect(response).to redirect_to question_path(random_answer.question)
+      it 'renders destroy template' do
+        delete :destroy, params: { id: answer,  question_id: question.id }, format: :js
+        expect(response).to render_template :destroy
       end
     end
   end
