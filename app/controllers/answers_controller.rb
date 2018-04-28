@@ -10,7 +10,11 @@ class AnswersController < ApplicationController
   end
 
   def update
-    @answer.update(answer_params)
+    if current_user.author_of?(@answer)
+      @answer.update(answer_params)
+    else
+      flash[:alert] = 'Action prohibited. You\'re allowed to edit only your own answers.'
+    end
   end
 
   def destroy
