@@ -1,5 +1,11 @@
-div
-  p
-    = answer.body
-    - if current_user&.author_of?(answer)
-      = link_to 'Delete', [@question, answer], method: :delete, data: { confirm: 'Are you sure?' }
+.answer class=("answer_#{answer.id}")
+  .answer_row
+    .answer_body = answer.body
+    .answer_actions
+      - if current_user&.author_of?(answer)
+        = link_to 'Edit', '#', class: 'answer_edit-btn', data: { answer_id: answer.id }
+        = form_with model: [@question, answer], remote: true, class: 'answer_edit-form', id: "edit-answer-#{answer.id}" do |f|
+          = f.label :body
+          = f.text_area :body
+          = f.submit 'Update'
+        = link_to 'Delete', [@question, answer], method: :delete, data: { confirm: 'Are you sure?' }
