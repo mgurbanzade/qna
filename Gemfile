@@ -28,7 +28,7 @@ end
 
 group :test do
   gem 'capybara', '>= 2.15', '< 4.0'
-  gem 'selenium-webdriver'
+  # gem 'selenium-webdriver'
   gem 'chromedriver-helper'
   gem 'shoulda-matchers'
   gem 'rails-controller-testing'
@@ -41,4 +41,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 group :test, :development do
   gem 'rspec-rails'
   gem 'factory_bot_rails'
+  gem 'capybara-webkit'
 end
