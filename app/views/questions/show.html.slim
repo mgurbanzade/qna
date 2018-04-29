@@ -1,8 +1,7 @@
 .errors
 .question class=("question-#{@question.id}")
   = render 'questions/question_edit'
-  .answers
-    = render @question.answers
+  = render 'questions/answers', question: @question
   .new_answer
     = form_with model: [@question, @answer] do |f|
       = render 'shared/errors', resource: @answer
