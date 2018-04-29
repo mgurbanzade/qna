@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :best_answer]
-  before_action :find_question, only: [:create, :update, :destroy]
+  before_action :find_question, only: :create
   before_action :find_answer, only: [:update, :best_answer, :destroy]
 
   def create
