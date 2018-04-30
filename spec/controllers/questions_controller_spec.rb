@@ -33,47 +33,23 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'GET #new' do
-    sign_in_user
-
-    before { get :new }
-
-    it 'assigns a new Question to @questions' do
-      expect(assigns(:question)).to be_a_new(Question)
-    end
-
-    it 'renders new view' do
-      expect(response).to render_template :new
-    end
-  end
-
   describe 'POST #create' do
     sign_in_user
 
     context 'with valid attributes' do
       it 'saves the new question in the database' do
-        expect { post :create, params: { question: attributes_for(:question) } }.to change(@user.questions, :count).by(1)
+        expect { post :create, params: { question: attributes_for(:question) }, format: :js }.to change(@user.questions, :count).by(1)
       end
 
-      it 'redirects to index view' do
-        post :create, params: { question: attributes_for(:question) }
-        expect(response).to redirect_to questions_path
-      end
-
-      it 'renders a flash message' do
-        post :create, params: { question: attributes_for(:question) }
-        expect(flash[:notice]).to eq 'Question is successfully created.'
+      it 'renders create template' do
+        post :create, params: { question: attributes_for(:question) }, format: :js
+        expect(response).to render_template :create
       end
     end
 
     context 'with invalid attributes' do
       it 'does not save the question' do
-        expect { post :create, params: { question: attributes_for(:invalid_question) } }.to_not change(Question, :count)
-      end
-
-      it 'redirects to new view' do
-        post :create, params: { question: attributes_for(:invalid_question) }
-        expect(response).to render_template :new
+        expect { post :create, params: { question: attributes_for(:invalid_question) }, format: :js }.to_not change(Question, :count)
       end
     end
   end

@@ -1,2 +1,11 @@
 @import "bootstrap";
 
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 1080px;
+
+  .main-content {
+    flex-grow: 1;
+  }
+}

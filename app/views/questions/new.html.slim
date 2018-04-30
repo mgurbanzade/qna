@@ -1,10 +1,10 @@
-= render 'shared/errors', resource: @question
-= form_with model: @question, locale: true do |f|
-  p
+= form_with model: @question, locale: true, class: 'new-question_form' do |f|
+  .errors = render 'shared/errors', resource: @question
+  .form-row
     = f.label :title
-    = f.text_field :title
-  p
+    = f.text_field :title, class: 'form-control'
+  .form-row
     = f.label :body
-    = f.text_area :body
-  p
-    = f.submit 'Create'
+    = f.text_area :body, class: 'form-control'
+  .form-row--button
+    = f.submit 'Create', class: 'btn btn-success'

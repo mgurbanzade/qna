@@ -4,6 +4,7 @@
     h1.question_attr = @question.title
     - if current_user&.author_of?(@question)
       = link_to 'Edit question', '#', class: 'question_edit-btn'
+      = link_to 'Delete question', question_path(@question), method: :delete, data: { confirm: 'Are you sure?' }
     .question_edit-input
       p = f.label :title
       = f.text_field :title, class: 'input_title'

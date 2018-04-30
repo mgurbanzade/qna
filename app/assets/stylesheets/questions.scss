@@ -1,4 +1,53 @@
+@import "vars";
+
+.index_actions {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+
+  .ask_question {
+    display: block;
+  }
+
+  .new-question {
+    display: none;
+    width: 50%;
+    margin: 0 auto;
+
+    &_form {
+      display: block;
+      padding: 40px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+
+      .form-row {
+        margin: 0 0 5px;
+
+        &--button {
+          margin-top: 20px;
+        }
+      }
+    }
+  }
+}
+
 .question {
+  display: block;
+  padding: 20px;
+  border-bottom: 1px solid #ccc;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &_title {
+    color: $green;
+  }
+
+  &_body {
+    color: rgba(0,0,0,0.7);
+  }
+
   &_edit-input {
     display: none;
   }
