@@ -5,8 +5,8 @@ RSpec.describe Answer, type: :model do
   it { should belong_to :question }
 
   describe "toggle_best! method" do
-    let(:answer) { create(:answer) }
-    let(:best_answer) { create(:answer, best: true) }
+    let!(:answer) { create(:answer) }
+    let!(:best_answer) { create(:answer, question: answer.question, best: true) }
 
     it "should mark answer as the best" do
       answer.toggle_best!
@@ -16,6 +16,12 @@ RSpec.describe Answer, type: :model do
 
     it "should remove best flag" do
       best_answer.toggle_best!
+      best_answer.reload
+      expect(best_answer).to_not be_best
+    end
+
+    it "should change best answer" do
+      answer.toggle_best!
       best_answer.reload
       expect(best_answer).to_not be_best
     end
