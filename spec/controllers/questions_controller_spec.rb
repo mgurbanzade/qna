@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
   sign_in_user
   let(:question) { create(:question, user: @user) }
+  let(:random_user) { create(:user) }
+  let(:random_question) { create(:question, user: random_user) }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
@@ -72,6 +74,50 @@ RSpec.describe QuestionsController, type: :controller do
       it 'redirects to new view' do
         post :create, params: { question: attributes_for(:invalid_question) }
         expect(response).to render_template :new
+      end
+    end
+  end
+
+  describe 'PATCH #update' do
+    context 'attempt to update user\'s own question' do
+      it 'assigns the requested question to @question' do
+        patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
+        expect(assigns(:question)).to eq question
+      end
+
+      it 'updates user own question\'s title' do
+        patch :update, params: { id: question, question: { title: 'new title' } }, format: :js
+        question.reload
+        expect(question.title).to eq 'new title'
+      end
+
+      it 'updates user own question\'s body' do
+        patch :update, params: { id: question, question: { body: 'new body' } }, format: :js
+        question.reload
+        expect(question.body).to eq 'new body'
+      end
+
+      it 'renders update template' do
+        patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'attempt to update other user question\'s title' do
+      it 'does not update other user question\'s title' do
+        init_title = random_question.title
+        patch :update, params: { id: random_question, question: { title: 'attempt to question title'} }, format: :js
+        random_question.reload
+        expect(random_question.title).to eq init_title
+      end
+    end
+
+    context 'attempt to update other user question\'s body' do
+      it 'does not update other user question\'s body' do
+        init_body = random_question.body
+        patch :update, params: { id: random_question, question: { body: 'attempt to question body'} }, format: :js
+        random_question.reload
+        expect(random_question.body).to eq init_body
       end
     end
   end

@@ -2,8 +2,10 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   sign_in_user
-  let(:question) { create(:question, user: @user) }
-  let(:answer) { create(:answer, question: question, user: @user) }
+  let!(:question) { create(:question, user: @user) }
+  let!(:answer) { create(:answer, question: question, user: @user) }
+  let(:random_user) { create(:user) }
+  let!(:random_answer) { create(:answer, question: question, user: random_user)}
 
   describe 'POST #create' do
     context 'with valid attributes' do
@@ -33,33 +35,78 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  describe 'DELETE #destroy' do
-    before { answer }
-
-    context 'delete own answer' do
-      it 'deletes user\'s own answer' do
-        expect { delete :destroy, params: { id: answer.id, question_id: question.id } }.to change(Answer, :count).by(-1)
+  describe 'PATCH #update' do
+    context 'attempt to update user\'s own answer' do
+      it 'assigns the requested answer to @answer' do
+        patch :update, params: { id: answer, question_id: question, answer: attributes_for(:answer) }, format: :js
+        expect(assigns(:answer)).to eq answer
       end
 
-      it 'redirects to @answer.question show view' do
-        delete :destroy, params: { id: answer, question_id: question }
-        expect(response).to redirect_to question_path(answer.question)
+      it 'updates user\'s own answer' do
+        patch :update, params: { id: answer, question_id: question, answer: { body: 'new body' } }, format: :js
+        answer.reload
+        expect(answer.body).to eq 'new body'
+      end
+
+      it 'renders update template' do
+        patch :update, params: { id: answer, question_id: question, answer: attributes_for(:answer) }, format: :js
+        expect(response).to render_template :update
       end
     end
 
-    context 'delete not own answer' do
-      before do
-        @random_user = create(:user)
-        @random_answer = create(:answer, user: @random_user, question: question)
+    context 'attempt to update other user\'s answer' do
+      it 'does not update other user\'s answer' do
+        init_body = random_answer.body
+        patch :update, params: { id: random_answer, question_id: question, answer: { body: 'attempt to edit answer'} }, format: :js
+        random_answer.reload
+        expect(random_answer.body).to eq init_body
+        expect(flash[:alert]).to eq 'Action prohibited. You\'re allowed to edit only your own answers.'
+      end
+    end
+  end
+
+  describe 'PATCH #best_answer' do
+    let!(:random_question) { create(:question, user: random_user) }
+    let(:random_answer) { create(:answer, question: random_question, user: random_user) }
+
+    it 'assigns answer to @answer' do
+      patch :best_answer, params: { id: answer }, format: :js
+      expect(assigns(:answer)).to eq answer
+    end
+
+    it 'chooses the best answer for the question' do
+      patch :best_answer, params: { id: answer }, format: :js
+      answer.reload
+      expect(answer).to be_best
+    end
+
+    it "doesn't choose best answer for other user's question" do
+      patch :best_answer, params: { id: random_answer }, format: :js
+      expect(flash[:alert]).to eq 'Action prohibited. You\'re allowed to choose the best answer only for your own questions.'
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    context 'attempt to delete own answer' do
+      it 'deletes user\'s own answer' do
+        expect { delete :destroy, params: { id: answer.id, question_id: question.id }, format: :js }.to change(Answer, :count).by(-1)
       end
 
-      it 'tries to delete not user\'s own answers' do
-        expect { delete :destroy, params: { id: @random_answer, question_id: question } }.to_not change(Answer, :count)
+      it 'renders destroy template' do
+        delete :destroy, params: { id: answer, question_id: question.id  }, format: :js
+        expect(response).to render_template :destroy
+      end
+    end
+
+    context ' attempt to delete not own answer' do
+      it 'does not delete other user\'s answer' do
+        expect { delete :destroy, params: { id: random_answer, question_id: question.id }, format: :js }.to_not change(Answer, :count)
+        expect(flash[:alert]).to eq 'Action prohibited. You\'re allowed to delete only your own answers.'
       end
 
-      it 'redirects to @random_answer.question show view' do
-        delete :destroy, params: { id: @random_answer, question_id: question }
-        expect(response).to redirect_to question_path(@random_answer.question)
+      it 'renders destroy template' do
+        delete :destroy, params: { id: answer,  question_id: question.id }, format: :js
+        expect(response).to render_template :destroy
       end
     end
   end

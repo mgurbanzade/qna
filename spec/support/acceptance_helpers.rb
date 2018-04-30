@@ -23,7 +23,10 @@ module AcceptanceHelper
   end
 
   def create_answer
-    fill_in 'Body', with: 'My answer'
+    within '.new_answer' do
+      fill_in 'Body', with: 'My answer'
+    end
+
     click_on 'Reply'
   end
 end

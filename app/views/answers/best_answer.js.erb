@@ -1,0 +1,6 @@
+<% if @answer.errors.present? %>
+  $('.errors').html("<%= j render 'shared/errors', resource: @answer %>");
+<% else %>
+  $('.answers').replaceWith("<%= j render 'questions/answers', question: @answer.question %>");
+  $('.errors').html('');
+<% end %>

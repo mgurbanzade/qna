@@ -1,0 +1,17 @@
+<% if @question.errors.present? %>
+  $('.errors').html("<%= j render 'shared/errors', resource: @question %>");
+<% else %>
+  $('.errors').html('');
+  $('.question_edit-btn, .question_attr, .question_edit-input, .question_submit-form').removeAttr('style');
+  $('.question_edit-form').replaceWith("<%= j render 'questions/question_edit' %>");
+
+  var $editBtn = $(document).find('.question_edit-btn');
+  var $editQuestionForm = $(document).find('.question_edit-form');
+
+  $editBtn.on('click', function(e) {
+    e.preventDefault();
+    $(this).hide();
+    $('.question_attr').hide();
+    $('.question_edit-input, .question_submit-form').show();
+  });
+<% end %>
