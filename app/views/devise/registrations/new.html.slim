@@ -8,10 +8,9 @@
       = f.label :email
       = f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control'
     .field
+      = f.label :password
       - if pass_length
-        = f.label "#{:password} (#{pass_length} characters minimum)"
-      - else
-        = f.label :password
+        em = "(#{pass_length} characters minimum)"
       = f.password_field :password, autocomplete: "off", class: 'form-control'
     .field
       = f.label :password_confirmation
