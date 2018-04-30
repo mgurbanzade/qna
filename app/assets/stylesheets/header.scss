@@ -1,0 +1,23 @@
+.header {
+  padding: 30px 20px;
+  background-color: #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  box-shadow: 1px 1px 20px -1px #ccc;
+
+  &_logo {
+    display: block;
+    width: 50px;
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+  }
+
+  &_logout {
+    display: block;
+  }
+}

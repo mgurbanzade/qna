@@ -1,1 +1,9 @@
 header.header
+  = link_to root_path, class: 'header_logo' do
+    = image_tag('logo.png')
+  .user-block
+    - if current_user
+      = link_to 'Log out', destroy_user_session_path, method: :delete, class: 'header_logout'
+    - else
+      = link_to 'Sign in', user_session_path
+
