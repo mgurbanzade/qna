@@ -9,14 +9,9 @@ class Answer < ApplicationRecord
     best_answer = question.answers.find_by(best: true)
     best_answer.update!(best: false) unless best_answer.nil?
 
-    if self.best
-      self.update!(best: false)
-    else
+    transaction do
+      return self.update!(best: false) if self.best
       self.update!(best: true)
     end
-  end
-
-  def best?
-    self.best
   end
 end
