@@ -1,6 +1,6 @@
 .index_actions
   .new-question
-    = render file: 'questions/new'
+    = render 'questions/new'
   = link_to 'Ask question', "#{current_user.nil? ? new_user_session_path : '#'}", class: 'ask_question'
 
 .questions

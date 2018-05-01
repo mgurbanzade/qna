@@ -11,7 +11,8 @@ var editForm = function() {
     e.preventDefault();
     $(this).hide();
     $('.question_attr').hide();
-    $('.question_edit-input, .question_submit-form').show();
+    $('.question_title').hide();
+    $('.question_edit-input, .question_submit-form, .question_cancel-editing').show();
   });
 };
 

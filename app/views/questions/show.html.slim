@@ -1,10 +1,11 @@
 .errors
-.question class=("question-#{@question.id}")
-  = render 'questions/question_edit'
-  = render 'questions/answers', question: @question
-  .new_answer
-    = form_with model: [@question, @answer] do |f|
-      = render 'shared/errors', resource: @answer
-      p = f.label :body
-      = f.text_area :body, resize: 'disable', cols: 10, rows: 10, class: 'input_body'
-      p = f.submit 'Reply'
+.question-container
+  .question class=("question-#{@question.id}")
+    = render 'questions/question_edit'
+    = render 'questions/answers', question: @question
+    .new_answer
+      = form_with model: [@question, @answer] do |f|
+        = render 'shared/errors', resource: @answer
+        p = f.label :body
+        = f.text_area :body, resize: 'disable', cols: 10, rows: 10, class: 'form-control input_body'
+        p = f.submit 'Reply', class: 'btn btn-success question_reply'

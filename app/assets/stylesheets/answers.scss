@@ -1,5 +1,56 @@
 .answer {
+  padding: 20px;
+  border-top: 1px solid #ccc;
+  margin: 0 -20px;
+
   &_edit-form {
     display: none;
+
+    label {
+      display: none;
+    }
+  }
+
+  &_actions {
+    display: flex;
+  }
+
+  &_delete-btn, &_edit-btn {
+    margin-left: 20px;
+  }
+
+  &_best {
+    color: #28a745;
+  }
+
+  &_delete-btn {
+    color: #dc3545;
+  }
+
+  &_row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &_info {
+    display: flex;
+    color: rgba(0,0,0,0.5);
+    margin-top: 20px;
+
+    .answer_date {
+      margin-right: 20px;
+    }
+  }
+
+  &_update {
+    margin-top: 20px;
+  }
+}
+
+.best_answer {
+  background-color: rgba(173,255,47, 0.2);
+
+  .answer_best {
+    color: #dc3545;
   }
 }

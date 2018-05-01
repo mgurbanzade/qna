@@ -1,18 +1,22 @@
 = form_with model: @question, class: 'question_edit-form' do |f|
   = render 'shared/errors', resource: @question
   .question_title-container
-    h1.question_attr = @question.title
+    .question_title-actions
+      h1.question_title = @question.title
+      .question_edit-input
+        p = f.label :title
+        = f.text_field :title, class: 'form-control input_title'
     - if current_user&.author_of?(@question)
-      = link_to 'Edit question', '#', class: 'question_edit-btn'
-      = link_to 'Delete question', question_path(@question), method: :delete, data: { confirm: 'Are you sure?' }
-    .question_edit-input
-      p = f.label :title
-      = f.text_field :title, class: 'input_title'
+      .question_actions
+        = link_to 'Edit question', '#', class: 'question_action question_edit-btn'
+        = link_to 'Delete question', question_path(@question), method: :delete, data: { confirm: 'Are you sure?' }, class: 'question_action question_delete-btn'
   .question_body
     .question_attr = @question.body
     .question_edit-input
       p = f.label :body
-      = f.text_area :body, resize: 'disable', cols: 10, rows: 10, class: 'input_body'
-  = f.submit 'Update', class: 'question_submit-form'
+      = f.text_area :body, resize: 'disable', cols: 10, rows: 10, class: 'form-control input_body'
+  .form-actions
+    = f.submit 'Update', class: 'btn btn-success question_submit-form'
+    = link_to 'Cancel', question_path(@question), class: 'btn btn-danger question_cancel-editing'
 
 
