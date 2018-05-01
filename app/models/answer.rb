@@ -1,9 +1,11 @@
 class Answer < ApplicationRecord
+  has_many :attachments, as: :attachable
   belongs_to :user
   belongs_to :question
 
   validates :body, presence: true
   scope :by_best, -> { order(best: :desc, created_at: :asc) }
+  accepts_nested_attributes_for :attachments
 
   def toggle_best!
     best_answer = question.answers.find_by(best: true)

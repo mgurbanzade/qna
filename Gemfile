@@ -15,6 +15,7 @@ gem 'slim-rails'
 gem 'devise'
 gem 'jquery-rails'
 gem 'bootstrap', '~> 4.1.0'
+gem 'carrierwave'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
