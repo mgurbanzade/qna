@@ -11,6 +11,14 @@ RSpec.describe QuestionsController, type: :controller do
 
     before { get :index }
 
+    it 'assigns a new Question to @question' do
+      expect(assigns(:question)).to be_a_new(Question)
+    end
+
+    it 'builds new attachment for question' do
+      expect(assigns(:question).attachments.first).to be_a_new(Attachment)
+    end
+
     it 'populates an array of all questions' do
       expect(assigns(:questions)).to match_array(questions)
     end

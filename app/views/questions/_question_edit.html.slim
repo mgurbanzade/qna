@@ -6,6 +6,9 @@
       .question_edit-input
         p = f.label :title
         = f.text_field :title, class: 'form-control input_title'
+    ul.question_attachments
+      - @question.attachments.each do |a|
+        li = link_to a.file.filename, a.file.url
     - if current_user&.author_of?(@question)
       .question_actions
         = link_to 'Edit question', '#', class: 'question_action question_edit-btn'
