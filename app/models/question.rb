@@ -5,5 +5,5 @@ class Question < ApplicationRecord
 
   validates :title, :body, presence: true
   scope :by_last, -> { order(created_at: :desc) }
-  accepts_nested_attributes_for :attachments
+  accepts_nested_attributes_for :attachments, reject_if: :all_blank
 end

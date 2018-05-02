@@ -10,6 +10,6 @@
         = f.text_area :body, resize: 'disable', cols: 10, rows: 10, class: 'form-control input_body'
         .form-row
           = f.fields_for :attachments do |a|
-            = a.label :file
-            = a.file_field :file
-        p = f.submit 'Reply', class: 'btn btn-success question_reply'
+            = render 'shared/attachments', f: a
+            = link_to_add_association 'Attach file', f, :attachments, partial: 'shared/attachments'
+        p = f.submit 'Reply', class: 'btn btn-success'

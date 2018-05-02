@@ -5,7 +5,7 @@ class Answer < ApplicationRecord
 
   validates :body, presence: true
   scope :by_best, -> { order(best: :desc, created_at: :asc) }
-  accepts_nested_attributes_for :attachments
+  accepts_nested_attributes_for :attachments, reject_if: :all_blank
 
   def toggle_best!
     best_answer = question.answers.find_by(best: true)
