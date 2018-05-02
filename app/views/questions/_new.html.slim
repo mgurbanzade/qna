@@ -8,8 +8,8 @@
     = f.text_area :body, class: 'form-control'
   .form-row
     = f.fields_for :attachments do |a|
-      = render 'shared/attachments', f: a
-      = link_to_add_association 'Attach file', f, :attachments, partial: 'shared/attachments'
+      = render 'attachments/nested_fields', f: a
+      = link_to_add_association 'Attach file', f, :attachments, partial: 'attachments/nested_fields'
 
   .form-row--button
     = f.submit 'Create', class: 'btn btn-success'

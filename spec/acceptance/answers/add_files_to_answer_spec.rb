@@ -35,7 +35,7 @@ feature 'Add files to answer', %q{
       expect(page).to have_link 'Delete'
     end
 
-    click_link 'Delete'
+    click_on 'Delete'
     click_on 'Reply'
     expect(page).to_not have_link 'spec_helper.rb'
   end
