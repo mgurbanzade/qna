@@ -3,26 +3,20 @@ class QuestionsController < ApplicationController
   before_action :find_question, only: [:show, :update, :destroy]
 
   def index
-    @questions = Question.all
+    @question = Question.new
+    @question.attachments.new
+    @questions = Question.all.by_last
   end
 
   def show
     @answer = Answer.new
-  end
-
-  def new
-    @question = Question.new
+    @answer = @question.answers.new
+    @answer.attachments.new
   end
 
   def create
     @question = current_user.questions.new(question_params)
-
-    if @question.save
-      flash[:notice] = 'Question is successfully created.'
-      redirect_to questions_path
-    else
-      render :new
-    end
+    @question.save
   end
 
   def update
@@ -46,7 +40,7 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, attachments_attributes: [:file, :id, :_destroy])
   end
 
   def find_question

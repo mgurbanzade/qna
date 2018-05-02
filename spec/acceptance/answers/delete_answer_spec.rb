@@ -11,18 +11,28 @@ feature 'Delete answer', %q{
   scenario 'Authenticated user deletes his answer', js: true do
     sign_in(answer.user)
     visit question_path(answer.question)
-    click_on 'Delete'
+
+    within ".answer_#{answer.id}" do
+      click_on 'Delete'
+    end
+
     expect(page).to_not have_content answer.body
   end
 
   scenario 'Authenticated user tries to delete not his own answer' do
     sign_in(user2)
     visit question_path(answer.question)
-    expect(page).to_not have_content 'Delete'
+
+    within ".answer_#{answer.id}" do
+      expect(page).to_not have_content 'Delete'
+    end
   end
 
   scenario 'Non-authenticated user tries to delete an answer' do
     visit question_path(answer.question)
-    expect(page).to_not have_content 'Delete'
+
+    within ".answer_#{answer.id}" do
+      expect(page).to_not have_content 'Delete'
+    end
   end
 end

@@ -1,14 +1,24 @@
-.answer class=("answer_#{answer.id}")
+.answer class=("answer_#{answer.id}") class=('best_answer' if answer.best?)
   .answer_row
-    .answer_body = answer.body
+    .answer_container
+      .answer_body = answer.body
+      = form_with model: answer, remote: true, class: 'answer_edit-form', id: "edit-answer-#{answer.id}" do |f|
+        = f.label :body
+        = f.text_area :body, class: 'form-control'
+        = f.submit 'Update', class: 'btn btn-success answer_update'
+      .answer_info
+        .answer_date = time(answer)
+        .answer_author = answer.user.email
+    ul.answer_attachments
+      - answer.attachments.each do |a|
+        li class=("attachment_#{a.id}")
+          = link_to a.file.filename, a.file.url
+          - if current_user&.author_of?(answer)
+            = link_to 'Delete attachment', attachment_path(a), method: :delete, data: { confirm: 'Are you sure?', remote: true }
     .answer_actions
       - if current_user&.author_of?(answer.question)
         .answer_toggle-best
           = link_to "#{answer.best ? 'Remove best flag' : 'Mark as best'}", best_answer_answer_url(answer), class: 'answer_best', method: :patch, remote: true
       - if current_user&.author_of?(answer)
         = link_to 'Edit', '#', class: 'answer_edit-btn', data: { answer_id: answer.id }
-        = form_with model: answer, remote: true, class: 'answer_edit-form', id: "edit-answer-#{answer.id}" do |f|
-          = f.label :body
-          = f.text_area :body
-          = f.submit 'Update'
-        = link_to 'Delete', answer, method: :delete, data: { confirm: 'Are you sure?', remote: true }
+        = link_to 'Delete', answer, method: :delete, data: { confirm: 'Are you sure?', remote: true }, class: 'answer_delete-btn'
