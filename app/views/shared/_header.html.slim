@@ -1,6 +1,7 @@
-- if alert || notice
-  .notice = notice
-  .alert = alert
+- if notice
+  .alert.alert-success = notice
+- elsif alert
+  .alert.alert-danger = alert
 header.header
   = link_to root_path, class: 'header_logo' do
     = image_tag('logo.png')
