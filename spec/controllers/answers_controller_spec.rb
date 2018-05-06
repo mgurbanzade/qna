@@ -5,7 +5,12 @@ RSpec.describe AnswersController, type: :controller do
   let!(:question) { create(:question, user: @user) }
   let!(:answer) { create(:answer, question: question, user: @user) }
   let(:random_user) { create(:user) }
-  let!(:random_answer) { create(:answer, question: question, user: random_user)}
+  let!(:random_answer) { create(:answer, question: question, user: random_user) }
+
+  it_behaves_like 'rated' do
+    let(:resource) { create(:answer, user: random_user) }
+    let(:author_resource) { create(:answer, user: @user) }
+  end
 
   describe 'POST #create' do
     context 'with valid attributes' do

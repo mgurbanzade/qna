@@ -6,6 +6,11 @@ RSpec.describe QuestionsController, type: :controller do
   let(:random_user) { create(:user) }
   let(:random_question) { create(:question, user: random_user) }
 
+  it_behaves_like 'rated' do
+    let(:resource) { create(:question, user: random_user) }
+    let(:author_resource) { create(:question, user: @user) }
+  end
+
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
 

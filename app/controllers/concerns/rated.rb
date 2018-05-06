@@ -6,11 +6,13 @@ module Rated
   end
 
   def like
+    return false if current_user.author_of?(@resource)
     @resource.toggle_like(current_user)
     render_json(@resource.vote_type(current_user))
   end
 
   def dislike
+    return false if current_user.author_of?(@resource)
     @resource.toggle_dislike(current_user)
     render_json(@resource.vote_type(current_user))
   end
