@@ -6,17 +6,17 @@ module Rateable
   end
 
   def toggle_like(user)
-    return unvote(user, 1) if voted?(user)
+    return unvote(user) if voted?(user)
     rates.create!(vote: 1, user: user)
   end
 
   def toggle_dislike(user)
-    return unvote(user, -1) if voted?(user)
+    return unvote(user) if voted?(user)
     rates.create!(vote: -1, user: user)
   end
 
-  def unvote(user, vote)
-    rates.where(user: user, vote: vote).delete_all
+  def unvote(user)
+    rates.where(user: user).delete_all
   end
 
   def rating
