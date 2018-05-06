@@ -20,5 +20,24 @@ body {
     &:hover {
       text-decoration: none;
     }
+
+    &.rate {
+      &:focus {
+        box-shadow: none;
+      }
+    }
+
+    &.dislike {
+      margin-left: 10px;
+    }
+
+    &.disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+
+      &:hover {
+        background-color: initial;
+      }
+    }
   }
 }
