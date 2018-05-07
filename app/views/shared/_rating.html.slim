@@ -1,7 +1,7 @@
 - resource_class = "#{resource.class}".downcase
 - sign = resource.rating > 0 ? '+' : ''
 
-div class="rate rate_#{resource_class}_#{resource.id}"
+div class="rate-#{resource_class} rate_#{resource_class}_#{resource.id}"
   .current_rating = sign.to_s + resource.rating.to_s
 
   - if current_user && !current_user&.author_of?(resource)
