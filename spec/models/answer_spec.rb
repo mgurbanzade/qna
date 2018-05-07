@@ -29,4 +29,6 @@ RSpec.describe Answer, type: :model do
       expect(best_answer).to_not be_best
     end
   end
+
+  it_behaves_like 'rateable'
 end

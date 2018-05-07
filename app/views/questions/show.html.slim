@@ -1,9 +1,9 @@
-.errors
 .question-container
   .question class=("question-#{@question.id}")
     = render 'questions/question_edit'
     = render 'questions/answers', question: @question
     .new_answer
+      .errors
       = form_with model: [@question, @answer] do |f|
         = render 'shared/errors', resource: @answer
         p = f.label :body

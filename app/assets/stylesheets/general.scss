@@ -1,4 +1,5 @@
 @import "bootstrap";
+@import "vars";
 
 body {
   display: flex;
@@ -7,5 +8,40 @@ body {
 
   .main-content {
     flex-grow: 1;
+  }
+
+  .alert {
+    margin-bottom: 0;
+  }
+
+  a {
+    color: $green;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    &.rate {
+      &:focus {
+        box-shadow: none;
+      }
+    }
+
+    &.dislike {
+      margin-left: 10px;
+    }
+
+    &.disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+
+      &:hover {
+        background-color: initial;
+      }
+    }
+  }
+
+  .errors {
+    color: red;
   }
 }

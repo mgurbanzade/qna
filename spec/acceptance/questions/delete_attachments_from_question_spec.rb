@@ -5,33 +5,24 @@ feature 'Remove attachments from question', %q{
   I'd like to be able to remove attached files
 } do
 
-  given(:user) { create(:user) }
+  given!(:question) { create(:question) }
   given(:random_user) { create(:user) }
-
-  before do
-    sign_in(user)
-    visit questions_path
-    click_on 'Ask question'
-    fill_in 'Title', with: 'Test question'
-    fill_in 'Body', with: 'text text text'
-    attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
-    click_on 'Create'
-  end
+  given!(:attachment) { create(:attachment, attachable: question) }
 
   scenario 'User tries to delete the attachments from his existing answer', js: true do
-    click_on 'Test question'
+    sign_in(question.user)
+    visit question_path(question)
 
     within '.question_attachments' do
       expect(page).to have_link 'Delete attachment'
       click_on 'Delete attachment'
-      expect(page).to_not have_link 'spec_helper.rb'
+      expect(page).to_not have_link attachment.file
     end
   end
 
-  scenario 'User tries to delete not his own attachments', js: true do
-    click_on 'Log out'
+  scenario 'User tries to delete not his own attachments' do
     sign_in(random_user)
-    click_link 'Test question'
+    visit question_path(question)
 
     within '.question_attachments' do
       expect(page).to_not have_link 'Delete attachment'

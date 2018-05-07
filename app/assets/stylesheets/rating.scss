@@ -1,0 +1,17 @@
+@import 'vars';
+
+.rate {
+
+  &-answer {
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+
+    .current_rating {
+      margin-right: 50px;
+      font-size: 38px;
+      line-height: 38px;
+      color: $green;
+    }
+  }
+}
