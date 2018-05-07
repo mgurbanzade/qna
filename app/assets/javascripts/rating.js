@@ -14,14 +14,10 @@ $(document).on('turbolinks:load', function() {
     if (response.action === 'liked') {
       $likeBtn.html('Unvote');
       $dislikeBtn.addClass('disabled');
-    }
-
-    else if (response.action === 'disliked') {
+    } else if (response.action === 'disliked') {
       $dislikeBtn.html('Unvote');
       $likeBtn.addClass('disabled');
-    }
-
-    else {
+    } else {
       $likeBtn.html('Like');
       $likeBtn.removeClass('disabled');
       $dislikeBtn.html('Dislike');
