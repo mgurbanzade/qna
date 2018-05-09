@@ -17,6 +17,8 @@ gem 'jquery-rails'
 gem 'bootstrap', '~> 4.1.0'
 gem 'carrierwave'
 gem 'cocoon'
+gem 'skim'
+gem 'gon'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
