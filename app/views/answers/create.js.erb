@@ -1,7 +1,7 @@
 <% if @answer.errors.present? %>
   $('.errors').html("<%= j render 'shared/errors', resource: @answer %>");
 <% else %>
-  $('.answers').append('<%= j render @answer %>');
+  // $('.answers').append('<%= j render @answer %>');
   $('.errors').html('');
   $('.input_body').val('');
   $('.nested-fields').remove();

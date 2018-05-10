@@ -2,7 +2,7 @@ class QuestionsController < ApplicationController
   include Rated
 
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :find_question, only: [:show, :update, :destroy, :publish_question]
+  before_action :find_question, only: [:show, :update, :destroy]
   after_action :publish_question, only: :create
 
   def index

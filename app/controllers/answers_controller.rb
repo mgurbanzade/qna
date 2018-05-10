@@ -4,6 +4,7 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :best_answer]
   before_action :find_question, only: :create
   before_action :find_answer, only: [:update, :best_answer, :destroy]
+  after_action :publish_answer, only: :create
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -47,5 +48,19 @@ class AnswersController < ApplicationController
 
   def find_answer
     @answer = Answer.find(params[:id])
+  end
+
+  def publish_answer
+    return if @answer.errors.any?
+
+    attachments = @answer.attachments.map do |attach|
+      { id: attach.id, filename: attach.filename, url: attach.file.url }
+    end
+
+    data = @answer.as_json(include: :attachments).merge(answer: @answer,
+      user_email: @answer.user.email,
+      rating: @answer.rating)
+
+    ActionCable.server.broadcast('answers', data: data)
   end
 end
