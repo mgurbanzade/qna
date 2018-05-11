@@ -57,10 +57,13 @@ class AnswersController < ApplicationController
       { id: attach.id, filename: attach.filename, url: attach.file.url }
     end
 
+    datetime = "#{view_context.time_ago_in_words(@answer.created_at)} ago"
+
     data = @answer.as_json(include: :attachments).merge(answer: @answer,
       user_email: @answer.user.email,
-      rating: @answer.rating)
+      rating: @answer.rating,
+      datetime: datetime)
 
-    ActionCable.server.broadcast('answers', data: data)
+    ActionCable.server.broadcast("question-#{@question.id}", data: data)
   end
 end

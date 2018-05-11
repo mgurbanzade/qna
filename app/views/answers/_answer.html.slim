@@ -21,5 +21,5 @@
         .answer_toggle-best
           = link_to "#{answer.best ? 'Remove best flag' : 'Mark as best'}", best_answer_answer_url(answer), class: 'btn btn-info answer_best', method: :patch, remote: true
       - if current_user&.author_of?(answer)
-        = link_to 'Edit', '#', class: 'answer_edit-btn', data: { answer_id: answer.id }
+        = link_to 'Edit', '', class: 'answer_edit-btn', data: { answer_id: answer.id }
         = link_to 'Delete', answer, method: :delete, data: { confirm: 'Are you sure?', remote: true }, class: 'answer_delete-btn'
