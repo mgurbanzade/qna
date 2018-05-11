@@ -54,7 +54,7 @@ class AnswersController < ApplicationController
     return if @answer.errors.any?
 
     attachments = @answer.attachments.map do |attach|
-      { id: attach.id, filename: attach.filename, url: attach.file.url }
+      { id: attach.id, filename: attach.file, url: attach.file.url }
     end
 
     datetime = "#{view_context.time_ago_in_words(@answer.created_at)} ago"
