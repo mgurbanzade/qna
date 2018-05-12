@@ -1,0 +1,6 @@
+<% if @comment.errors.present? %>
+  $('.errors').html("<%= j render 'shared/errors', resource: @comment %>");
+<% else %>
+  $('.errors').html('');
+  $('.form-control').val('');
+<% end %>

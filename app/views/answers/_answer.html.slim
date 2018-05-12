@@ -23,3 +23,7 @@
       - if current_user&.author_of?(answer)
         = link_to 'Edit', '', class: 'answer_edit-btn', data: { answer_id: answer.id }
         = link_to 'Delete', answer, method: :delete, data: { confirm: 'Are you sure?', remote: true }, class: 'answer_delete-btn'
+  .answer_row
+    .answer-comments
+      = render answer.comments
+      = render 'comments/new', resource: answer

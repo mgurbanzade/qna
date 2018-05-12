@@ -1,6 +1,9 @@
 .question-container
   .question class=("question-#{@question.id}") data-id="#{@question.id}"
     = render 'questions/question_edit'
+    .question-comments
+      = render @question.comments
+      = render 'comments/new', resource: @question
     = render 'questions/answers', question: @question
     .new_answer
       .errors

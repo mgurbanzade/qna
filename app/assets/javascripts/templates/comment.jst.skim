@@ -1,0 +1,4 @@
+- id = @data['id']
+- body = @data['body']
+
+div class="comment comment-#{id}" = body
