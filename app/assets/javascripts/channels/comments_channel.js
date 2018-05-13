@@ -10,7 +10,7 @@ var addComment = function() {
       received: function(data) {
         type = data.data.commentable_type.toLowerCase();
         id = data.data.commentable_id;
-        selector = "." + type + '-' + id;
+        selector = "." + type + '_' + id;
         $(selector).find('.' + type + '-comments').prepend(JST["templates/comment"](data));
       }
     });

@@ -2,5 +2,7 @@
   $('.errors').html("<%= j render 'shared/errors', resource: @comment %>");
 <% else %>
   $('.errors').html('');
-  $('.form-control').val('');
+  $('textarea.form-control').each(function() {
+    $(this).val('');
+  });
 <% end %>

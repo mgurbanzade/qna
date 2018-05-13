@@ -1,5 +1,5 @@
 .question-container
-  .question class=("question-#{@question.id}") data-id="#{@question.id}"
+  .question class=("question_#{@question.id}") data-id="#{@question.id}"
     = render 'questions/question_edit'
     .question-comments
       = render @question.comments
