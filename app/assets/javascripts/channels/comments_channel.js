@@ -8,10 +8,12 @@ var addComment = function() {
       },
 
       received: function(data) {
-        type = data.data.commentable_type.toLowerCase();
-        id = data.data.commentable_id;
-        selector = "." + type + '_' + id;
-        $(selector).find('.' + type + '-comments').prepend(JST["templates/comment"](data));
+        if (data.data.commentable_type !== undefined) {
+          type = data.data.commentable_type.toLowerCase();
+          id = data.data.commentable_id;
+          selector = "." + type + '_' + id;
+          $(selector).find('.' + type + '-comments').prepend(JST["templates/comment"](data));
+        }
       }
     });
   }
