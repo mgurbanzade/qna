@@ -12,7 +12,7 @@
         p = f.label :body
         = f.text_area :body, resize: 'disable', cols: 10, rows: 10, class: 'form-control input_body'
         .form-row
-          = f.fields_for :attachments do |a|
+          = f.fields_for :attachments, @answer.attachments.new do |a|
             = render 'attachments/nested_fields', f: a
             = link_to_add_association 'Attach file', f, :attachments, partial: 'attachments/nested_fields'
         p = f.submit 'Reply', class: 'btn btn-success'
