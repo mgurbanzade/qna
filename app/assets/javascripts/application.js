@@ -16,4 +16,5 @@
 //= require jquery
 //= require bootstrap
 //= require cocoon
+//= require skim
 //= require_tree .

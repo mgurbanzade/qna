@@ -1,7 +1,7 @@
 $(document).on('turbolinks:load', function() {
   var $rateBtn = $(document).find('a.rate');
 
-  $rateBtn.on('ajax:success', function(e) {
+  $(document).on('ajax:success', 'a.rate', function(e) {
     var response = e.detail[0];
     var rating = response.rating > 0 ? '+' + response.rating : response.rating;
     var $rateContainer = $('.rate_' + response.klass.toLowerCase() + '_' + response.id);

@@ -6,6 +6,7 @@ feature 'Create answer', %q{
 } do
 
   given(:question) { create(:question) }
+  given(:user) { create(:user) }
 
   scenario 'Authenticated user creates answer', js: true do
     sign_in(question.user)
@@ -29,5 +30,26 @@ feature 'Create answer', %q{
     fill_in 'Body', with: ''
     click_on 'Reply'
     expect(page).to have_content "Body can't be blank"
+  end
+
+  context "mulitple sessions" do
+    scenario "answer appears on another user's page", js: true do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        create_answer
+      end
+
+      Capybara.using_session('guest') do
+        expect(page).to have_content 'My answer'
+      end
+    end
   end
 end

@@ -1,0 +1,19 @@
+- answer_user_id = @data['user_id']
+- answer_user_email = @data['user_email']
+- answer = @data['answer']
+- rating = @data['rating']
+- datetime = @data['datetime']
+
+div class="answer answer_#{answer.id}"
+  .answer_row
+    .answer_container
+      .answer_body = answer.body
+      .answer_info
+        .answer_date = datetime
+        .answer_author = answer_user_email
+    .answer_actions
+      div class="rate-answer rate_answer_#{answer.id}"
+        .current_rating = rating
+        - if gon.user_signed_in
+          a href="/answers/#{answer.id}/like" data-method="post" data-remote="true" class="btn btn-success rate like" Like
+          a href="/answers/#{answer.id}/dislike" data-method="post" data-remote="true" class="btn btn-danger rate dislike" Dislike

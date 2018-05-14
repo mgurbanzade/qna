@@ -1,5 +1,6 @@
 class Answer < ApplicationRecord
   include Rateable
+  include Commentable
 
   has_many :attachments, as: :attachable
   belongs_to :user

@@ -17,9 +17,13 @@
             = link_to 'Delete attachment', attachment_path(a), method: :delete, data: { confirm: 'Are you sure?', remote: true }
     .answer_actions
       = render 'shared/rating', resource: answer
-      - if current_user&.author_of?(answer.question)
+      - if current_user&.author_of?(answer.question) && !current_user&.author_of?(answer)
         .answer_toggle-best
           = link_to "#{answer.best ? 'Remove best flag' : 'Mark as best'}", best_answer_answer_url(answer), class: 'btn btn-info answer_best', method: :patch, remote: true
       - if current_user&.author_of?(answer)
-        = link_to 'Edit', '#', class: 'answer_edit-btn', data: { answer_id: answer.id }
+        = link_to 'Edit', '', class: 'answer_edit-btn', data: { answer_id: answer.id }
         = link_to 'Delete', answer, method: :delete, data: { confirm: 'Are you sure?', remote: true }, class: 'answer_delete-btn'
+  .answer_row
+    .answer-comments
+      = render answer.comments
+      = render 'comments/new', resource: answer
