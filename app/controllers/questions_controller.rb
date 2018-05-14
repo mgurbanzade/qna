@@ -3,44 +3,43 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: [:index, :show]
   before_action :find_question, only: [:show, :update, :destroy]
+  before_action :new_question, only: :index
+  before_action :new_answer, only: :show
   after_action :publish_question, only: :create
 
+  respond_to :html, :js
+
   def index
-    @question = Question.new
-    @question.attachments.new
-    @questions = Question.all.by_last
+    respond_with(@questions = Question.all.by_last)
   end
 
   def show
-    @answer = Answer.new
-    @answer = @question.answers.new
-    @answer.attachments.new
+    respond_with(@answer = @question.answers.new)
   end
 
   def create
-    @question = current_user.questions.new(question_params)
-    @question.save
+    @question = current_user.questions.create(question_params)
+    respond_with @question
   end
 
   def update
-    if current_user.author_of?(@question)
-      @question.update(question_params)
-    else
-      flash[:alert] = 'Action prohibited. You\'re allowed to edit only your own questions.'
-    end
+    @question.update(question_params)
+    respond_with @question
   end
 
   def destroy
-    if current_user.author_of?(@question)
-      @question.destroy
-      flash[:notice] = 'The question is successfully deleted.'
-    else
-      flash[:alert] = 'Action prohibited. You\'re allowed to delete only your own questions.'
-    end
-    redirect_to questions_path
+    respond_with(@question.destroy)
   end
 
   private
+
+  def new_question
+    @question = Question.new
+  end
+
+  def new_answer
+    @answer = Answer.new
+  end
 
   def question_params
     params.require(:question).permit(:title, :body, attachments_attributes: [:file, :id, :_destroy])

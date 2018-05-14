@@ -20,10 +20,6 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:question)).to be_a_new(Question)
     end
 
-    it 'builds new attachment for question' do
-      expect(assigns(:question).attachments.first).to be_a_new(Attachment)
-    end
-
     it 'populates an array of all questions' do
       expect(assigns(:questions)).to match_array(questions)
     end
@@ -91,24 +87,6 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response).to render_template :update
       end
     end
-
-    context 'attempt to update other user question\'s title' do
-      it 'does not update other user question\'s title' do
-        init_title = random_question.title
-        patch :update, params: { id: random_question, question: { title: 'attempt to question title'} }, format: :js
-        random_question.reload
-        expect(random_question.title).to eq init_title
-      end
-    end
-
-    context 'attempt to update other user question\'s body' do
-      it 'does not update other user question\'s body' do
-        init_body = random_question.body
-        patch :update, params: { id: random_question, question: { body: 'attempt to question body'} }, format: :js
-        random_question.reload
-        expect(random_question.body).to eq init_body
-      end
-    end
   end
 
   describe 'DELETE #destroy' do
@@ -121,22 +99,6 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'redirects to index view' do
         delete :destroy, params: { id: question }
-        expect(response).to redirect_to questions_path
-      end
-    end
-
-    context 'delete not own question' do
-      before do
-        @random_user = create(:user)
-        @random_question = create(:question, user: @random_user)
-      end
-
-      it 'tries to delete not user\'s own questions' do
-        expect { delete :destroy, params: { id: @random_question } }.to_not change(Question, :count)
-      end
-
-      it 'redirects to index view' do
-        delete :destroy, params: { id: @random_question }
         expect(response).to redirect_to questions_path
       end
     end
