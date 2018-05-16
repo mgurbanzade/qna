@@ -5,6 +5,7 @@ module OmniauthMacros
       uid: '123545',
       info: {
         email: 'test-user@example.com'
+
       }
     )
   end
