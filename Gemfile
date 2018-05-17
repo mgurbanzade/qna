@@ -19,6 +19,9 @@ gem 'carrierwave'
 gem 'cocoon'
 gem 'skim'
 gem 'gon'
+gem 'omniauth'
+gem 'omniauth-vkontakte'
+gem 'omniauth-twitter'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
