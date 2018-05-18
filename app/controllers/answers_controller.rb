@@ -15,27 +15,15 @@ class AnswersController < ApplicationController
   end
 
   def update
-    if current_user.author_of?(@answer)
-      @answer.update(answer_params)
-    else
-      flash[:alert] = 'Action prohibited. You\'re allowed to edit only your own answers.'
-    end
+    @answer.update(answer_params)
   end
 
   def best_answer
-    if current_user.author_of?(@answer.question)
-      @answer.toggle_best!
-    else
-      flash[:alert] = 'Action prohibited. You\'re allowed to choose the best answer only for your own questions.'
-    end
+    @answer.toggle_best!
   end
 
   def destroy
-    if current_user.author_of?(@answer)
-      @answer.destroy
-    else
-      flash[:alert] = 'Action prohibited. You\'re allowed to delete only your own answers.'
-    end
+    @answer.destroy
   end
 
   private
