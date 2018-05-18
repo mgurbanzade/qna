@@ -10,10 +10,10 @@
       - @question.attachments.each do |a|
         li class=("attachment_#{a.id}")
           = link_to a.file.filename, a.file.url
-          - if current_user&.author_of?(@question)
+          - if can?(:destroy, a)
             = link_to 'Delete attachment', attachment_path(a), method: :delete, data: { confirm: 'Are you sure?', remote: true }
     = render 'shared/rating', resource: @question
-    - if current_user&.author_of?(@question)
+    - if can?(:update, @question) || can?(:destroy, @question)
       .question_actions
         = link_to 'Edit question', '#', class: 'question_action question_edit-btn'
         = link_to 'Delete question', question_path(@question), method: :delete, data: { confirm: 'Are you sure?' }, class: 'question_action question_delete-btn'

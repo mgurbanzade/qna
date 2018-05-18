@@ -5,6 +5,8 @@ class QuestionsController < ApplicationController
   before_action :find_question, only: [:show, :update, :destroy]
   after_action :publish_question, only: :create
 
+  authorize_resource
+
   def index
     @question = Question.new
     @question.attachments.new
@@ -23,20 +25,12 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if current_user.author_of?(@question)
-      @question.update(question_params)
-    else
-      flash[:alert] = 'Action prohibited. You\'re allowed to edit only your own questions.'
-    end
+    @question.update(question_params)
   end
 
   def destroy
-    if current_user.author_of?(@question)
-      @question.destroy
-      flash[:notice] = 'The question is successfully deleted.'
-    else
-      flash[:alert] = 'Action prohibited. You\'re allowed to delete only your own questions.'
-    end
+    @question.destroy
+    flash[:notice] = 'The question is successfully deleted.'
     redirect_to questions_path
   end
 

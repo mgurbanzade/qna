@@ -22,6 +22,7 @@ gem 'gon'
 gem 'omniauth'
 gem 'omniauth-vkontakte'
 gem 'omniauth-twitter'
+gem 'cancancan'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

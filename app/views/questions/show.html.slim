@@ -3,16 +3,18 @@
     = render 'questions/question_edit'
     .question-comments
       = render @question.comments
-      = render 'comments/new', resource: @question
+      - if can?(:create, Comment)
+        = render 'comments/new', resource: @question
     = render 'questions/answers', question: @question
-    .new_answer
-      .errors
-      = form_with model: [@question, @answer] do |f|
-        = render 'shared/errors', resource: @answer
-        p = f.label :body
-        = f.text_area :body, resize: 'disable', cols: 10, rows: 10, class: 'form-control input_body'
-        .form-row
-          = f.fields_for :attachments do |a|
-            = render 'attachments/nested_fields', f: a
-            = link_to_add_association 'Attach file', f, :attachments, partial: 'attachments/nested_fields'
-        p = f.submit 'Reply', class: 'btn btn-success'
+    - if can?(:create, Answer)
+      .new_answer
+        .errors
+        = form_with model: [@question, @answer] do |f|
+          = render 'shared/errors', resource: @answer
+          p = f.label :body
+          = f.text_area :body, resize: 'disable', cols: 10, rows: 10, class: 'form-control input_body'
+          .form-row
+            = f.fields_for :attachments do |a|
+              = render 'attachments/nested_fields', f: a
+              = link_to_add_association 'Attach file', f, :attachments, partial: 'attachments/nested_fields'
+          p = f.submit 'Reply', class: 'btn btn-success'

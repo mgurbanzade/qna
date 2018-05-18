@@ -134,11 +134,6 @@ RSpec.describe QuestionsController, type: :controller do
       it 'tries to delete not user\'s own questions' do
         expect { delete :destroy, params: { id: @random_question } }.to_not change(Question, :count)
       end
-
-      it 'redirects to index view' do
-        delete :destroy, params: { id: @random_question }
-        expect(response).to redirect_to questions_path
-      end
     end
   end
 end
