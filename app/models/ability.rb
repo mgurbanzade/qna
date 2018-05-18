@@ -1,8 +1,10 @@
 class Ability
   include CanCan::Ability
+  attr_reader :user
 
   def initialize(user)
-    user ? user_abilities(user) : guest_abilities
+    @user = user
+    @user ? user_abilities : guest_abilities
   end
 
   private
@@ -11,7 +13,7 @@ class Ability
     can :read, [Question, Answer, Comment]
   end
 
-  def user_abilities(user)
+  def user_abilities
     guest_abilities
     can :create, [Question, Answer, Comment]
     can :update, [Question, Answer], user_id: user.id
@@ -25,13 +27,13 @@ class Ability
       user.author_of?(answer.question) && !user.author_of?(answer)
     end
 
-    can_vote(:like, user)
-    can_vote(:dislike, user)
+    can_vote(:like)
+    can_vote(:dislike)
   end
 
-  def can_vote(action, user)
+  def can_vote(action)
     can action, [Question, Answer] do |resource|
-      !user.author_of?(resource) && !resource.voted?(user)
+      !user.author_of?(resource)
     end
   end
 end

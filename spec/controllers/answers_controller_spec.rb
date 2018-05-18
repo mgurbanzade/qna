@@ -65,7 +65,6 @@ RSpec.describe AnswersController, type: :controller do
         patch :update, params: { id: random_answer, question_id: question, answer: { body: 'attempt to edit answer'} }, format: :js
         random_answer.reload
         expect(random_answer.body).to eq init_body
-        expect(flash[:alert]).to eq 'Action prohibited. You\'re allowed to edit only your own answers.'
       end
     end
   end
@@ -73,6 +72,7 @@ RSpec.describe AnswersController, type: :controller do
   describe 'PATCH #best_answer' do
     let!(:random_question) { create(:question, user: random_user) }
     let(:random_answer) { create(:answer, question: random_question, user: random_user) }
+    let(:random_answer2) { create(:answer, question: question, user: random_user) }
 
     it 'assigns answer to @answer' do
       patch :best_answer, params: { id: answer }, format: :js
@@ -80,14 +80,13 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     it 'chooses the best answer for the question' do
-      patch :best_answer, params: { id: answer }, format: :js
-      answer.reload
-      expect(answer).to be_best
+      patch :best_answer, params: { id: random_answer2 }, format: :js
+      random_answer2.reload
+      expect(random_answer2).to be_best
     end
 
     it "doesn't choose best answer for other user's question" do
       patch :best_answer, params: { id: random_answer }, format: :js
-      expect(flash[:alert]).to eq 'Action prohibited. You\'re allowed to choose the best answer only for your own questions.'
     end
   end
 
@@ -106,7 +105,6 @@ RSpec.describe AnswersController, type: :controller do
     context ' attempt to delete not own answer' do
       it 'does not delete other user\'s answer' do
         expect { delete :destroy, params: { id: random_answer, question_id: question.id }, format: :js }.to_not change(Answer, :count)
-        expect(flash[:alert]).to eq 'Action prohibited. You\'re allowed to delete only your own answers.'
       end
 
       it 'renders destroy template' do
