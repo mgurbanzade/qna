@@ -18,12 +18,6 @@ feature 'Create answer', %q{
     end
   end
 
-  scenario 'Non-authenticated user tries to create answer' do
-    visit question_path(question)
-    create_answer
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
-  end
-
   scenario 'Authenticated user tries to create answer with incorrect attributes', js: true do
     sign_in(question.user)
     visit question_path(question)

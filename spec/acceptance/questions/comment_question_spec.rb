@@ -29,16 +29,6 @@ feature 'Comment question', %q{
     end
   end
 
-  scenario 'Non-authenticated user tries to create comment', js: true do
-    visit question_path(question)
-
-    within '.question-comments' do
-      fill_in 'Comment', with: 'text text'
-      click_on 'Create Comment'
-      expect(page).to_not have_content "text text"
-    end
-  end
-
   context 'mulitple sessions' do
     scenario "comment appears on another user's page", js: true do
       Capybara.using_session('user') do
