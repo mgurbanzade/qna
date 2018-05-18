@@ -23,6 +23,7 @@ gem 'omniauth'
 gem 'omniauth-vkontakte'
 gem 'omniauth-twitter'
 gem 'cancancan'
+gem 'doorkeeper', '4.2.6'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -43,6 +44,7 @@ group :test do
   gem 'rails-controller-testing'
   gem 'launchy'
   gem 'database_cleaner'
+  gem 'json_spec'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
