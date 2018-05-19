@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::Base
+  check_authorization unless: :devise_controller?
   before_action :gon_user
-
-  authorize_resource unless: :devise_controller?
 
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
