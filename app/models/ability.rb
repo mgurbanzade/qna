@@ -29,6 +29,7 @@ class Ability
 
     can_vote(:like)
     can_vote(:dislike)
+    can :me, User, id: user.id
   end
 
   def can_vote(action)
