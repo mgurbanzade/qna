@@ -30,4 +30,8 @@ class User < ApplicationRecord
   def author_of?(resource)
     self.id == resource.user_id
   end
+
+  def is_admin?
+    self.admin
+  end
 end
