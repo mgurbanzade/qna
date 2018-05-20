@@ -17,10 +17,7 @@ describe 'Answers API' do
       before { get "/api/v1/questions/#{question.id}/answers", params: { format: :json, access_token: access_token.token } }
 
       it_behaves_like 'Request Success'
-
-      it 'returns list of question answers' do
-        expect(response.body).to have_json_size(3)
-      end
+      it_behaves_like 'List of Objects', 'question answers', 3
 
       %w(id body created_at updated_at).each do |attr|
         it "contains #{attr}" do
@@ -48,9 +45,7 @@ describe 'Answers API' do
 
       before { get "/api/v1/answers/#{answer.id}", params: { format: :json, access_token: access_token.token } }
 
-      it "returns 200 status code" do
-        expect(response).to be_success
-      end
+      it_behaves_like 'Request Success'
 
       %w(id body created_at updated_at).each do |attr|
         it "contains #{attr}" do
@@ -59,9 +54,7 @@ describe 'Answers API' do
       end
 
       context "comments" do
-        it "returns answer comments" do
-          expect(response.body).to have_json_size(3).at_path('comments')
-        end
+        it_behaves_like 'List of Objects', 'answer comments', 3, 'comments'
 
         %w(id body created_at updated_at).each do |attr|
           it "contains #{attr}" do
@@ -71,9 +64,7 @@ describe 'Answers API' do
       end
 
       context "attachments" do
-        it "returns answer attachments" do
-          expect(response.body).to have_json_size(3).at_path('attachments')
-        end
+        it_behaves_like 'List of Objects', 'answer attachments', 3, 'attachments'
 
         it "contains a file" do
           expect(response.body).to be_json_eql(attachment.file.to_json).at_path('attachments/2/file')
@@ -90,36 +81,17 @@ describe 'Answers API' do
     let!(:user) { create(:user) }
     let!(:question) { create(:question, user: user) }
 
+    it_behaves_like 'API Authenticatable'
+
     context 'authorized' do
       let(:access_token) { create(:access_token, resource_owner_id: user.id) }
-      let(:post_answer) { post "/api/v1/questions/#{question.id}/answers", params: { answer: attributes_for(:answer), question_id: question, format: :json, access_token: access_token.token } }
-      let!(:post_invalid_answer) { post "/api/v1/questions/#{question.id}/answers", params: { answer: attributes_for(:invalid_answer), question_id: question, format: :json, access_token: access_token.token } }
 
-      context 'with valid attributes' do
-        it 'creates a new question answer' do
-          post_answer
-          expect(response).to be_success
-        end
-
-        it 'saves the question answer in database' do
-          expect { post_answer }.to change(question.answers, :count).by(1)
-        end
-      end
-
-      context 'with invalid attributes' do
-        it 'does not create an answer' do
-          post_invalid_answer
-          expect(response.status).to eq 422
-        end
-
-        it 'does not save the answer in database' do
-          expect { post_invalid_answer }.to_not change(Answer, :count)
-        end
-      end
+      it_behaves_like 'Valid Attributes', 'answer', Answer
+      it_behaves_like 'Invalid Attributes', 'answer', Answer
     end
 
     def do_request(options = {})
-      post "/api/v1/questions/#{question.id}/answers", params: { format: :json }.merge(options)
+      post "/api/v1/questions/#{question.id}/answers", params: { format: :json } .merge(options)
     end
   end
 end
