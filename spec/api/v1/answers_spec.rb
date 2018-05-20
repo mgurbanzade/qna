@@ -16,9 +16,7 @@ describe 'Answers API' do
 
       before { get "/api/v1/questions/#{question.id}/answers", params: { format: :json, access_token: access_token.token } }
 
-      it 'return 200 status code' do
-        expect(response).to be_success
-      end
+      it_behaves_like 'Request Success'
 
       it 'returns list of question answers' do
         expect(response.body).to have_json_size(3)
@@ -40,18 +38,6 @@ describe 'Answers API' do
     let!(:user) { create(:user) }
     let!(:question) { create(:question, user: user) }
     let!(:answer) { create(:answer, question: question, user: user) }
-
-    context 'unauthorized' do
-      it "return 401 status if there is no access_token" do
-        get "/api/v1/answers/#{answer.id}", params: { format: :json }
-        expect(response.status).to eq 401
-      end
-
-      it "return 401 status if access_token is invalid" do
-        get "/api/v1/answers/#{answer.id}", params: { format: :json, access_token: '1234' }
-        expect(response.status).to eq 401
-      end
-    end
 
     context "authorized" do
       let!(:access_token) { create(:access_token) }
@@ -94,23 +80,15 @@ describe 'Answers API' do
         end
       end
     end
+
+    def do_request(options = {})
+      get "/api/v1/answers/#{answer.id}", params: { format: :json }.merge(options)
+    end
   end
 
   describe 'POST /create' do
     let!(:user) { create(:user) }
     let!(:question) { create(:question, user: user) }
-
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        post "/api/v1/questions/#{question.id}/answers", params: { format: :json }
-        expect(response.status).to eq 401
-      end
-
-      it 'returns 401 status if access_token is invalid' do
-        post "/api/v1/questions/#{question.id}/answers", params: { format: :json, access_token: '1234' }
-        expect(response.status).to eq 401
-      end
-    end
 
     context 'authorized' do
       let(:access_token) { create(:access_token, resource_owner_id: user.id) }
@@ -138,6 +116,10 @@ describe 'Answers API' do
           expect { post_invalid_answer }.to_not change(Answer, :count)
         end
       end
+    end
+
+    def do_request(options = {})
+      post "/api/v1/questions/#{question.id}/answers", params: { format: :json }.merge(options)
     end
   end
 end
