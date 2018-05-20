@@ -36,6 +36,8 @@ describe 'Answers API' do
     let!(:question) { create(:question, user: user) }
     let!(:answer) { create(:answer, question: question, user: user) }
 
+    it_behaves_like 'API Authenticatable'
+
     context "authorized" do
       let!(:access_token) { create(:access_token) }
       let!(:comments) { create_list(:comment, 3, commentable: answer, user: user) }

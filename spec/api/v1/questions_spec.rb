@@ -36,6 +36,8 @@ describe 'Question API' do
     let(:attachment) { attachments.first }
     let!(:attachments) { create_list(:attachment, 2, attachable: question) }
 
+    it_behaves_like 'API Authenticatable'
+
     context 'authorized' do
       let(:access_token) { create(:access_token, resource_owner_id: user.id) }
 

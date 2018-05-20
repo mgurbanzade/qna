@@ -38,6 +38,7 @@ describe 'Profile API' do
 
       before { get '/api/v1/profiles/', params: { format: :json, access_token: access_token.token } }
 
+      it_behaves_like 'API Authenticatable'
       it_behaves_like 'Request Success'
 
       it 'does not have current profile info' do
