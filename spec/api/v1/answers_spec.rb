@@ -2,20 +2,10 @@ require 'rails_helper'
 
 describe 'Answers API' do
   describe 'GET /index' do
-    context 'unauthorized' do
-      let(:user) { create(:user) }
-      let(:question) { create(:question, user: user) }
+    let(:user) { create(:user) }
+    let(:question) { create(:question, user: user) }
 
-      it "return 401 status if token empty" do
-        get "/api/v1/questions/#{question.id}/answers", params: { format: :json }
-        expect(response.status).to eq 401
-      end
-
-      it "return 401 status if token wrong" do
-        get "/api/v1/questions/#{question.id}/answers", params: { format: :json, access_token: '1234' }
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like 'API Authenticatable'
 
     context "authorized" do
       let(:access_token) { create(:access_token) }
@@ -39,6 +29,10 @@ describe 'Answers API' do
           expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("0/#{attr}")
         end
       end
+    end
+
+    def do_request(options = {})
+      get "/api/v1/questions/#{question.id}/answers", params: { format: :json }.merge(options)
     end
   end
 
