@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-  shared_examples_for "rated" do
+shared_examples_for "rated" do
 
   sign_in_user
 
