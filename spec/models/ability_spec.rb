@@ -48,6 +48,15 @@ RSpec.describe Ability, type: :model do
     context 'Comment' do
       it { should be_able_to :create, Comment }
     end
+
+    context "Subscription" do
+      let(:subscription) { question.subscriptions.first }
+      let(:subscription2) { create :subscription }
+
+      it { should be_able_to :create, Subscription }
+      it { should be_able_to :destroy, subscription, user: user }
+      it { should_not be_able_to :destroy, subscription2, user: user }
+    end
   end
 
   describe 'non authenticated user' do

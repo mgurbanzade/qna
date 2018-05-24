@@ -27,6 +27,8 @@ Rails.application.routes.draw do
   end
 
   resources :questions, except: :new, concerns: [:rateable, :commentable] do
+    resources :subscriptions, only: [:create, :destroy], shallow: true
+
     resources :answers, only: [:create, :destroy, :update], shallow: true, concerns: [:rateable, :commentable] do
       member do
         patch :best_answer

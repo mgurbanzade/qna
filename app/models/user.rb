@@ -36,6 +36,10 @@ class User < ApplicationRecord
     self.admin
   end
 
+  def subscribed?(question)
+    self.subscriptions.exists?(question: question.id)
+  end
+
   def self.send_daily_digest
     find_each.each do |user|
       DailyMailer.digest(user).deliver_later

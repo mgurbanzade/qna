@@ -12,6 +12,12 @@
           = link_to a.file.filename, a.file.url
           - if can?(:destroy, a)
             = link_to 'Delete attachment', attachment_path(a), method: :delete, data: { confirm: 'Are you sure?', remote: true }
+    - if can?(:create, Subscription) || can?(:destroy, Subscription)
+      .subscribe_question
+        - if !current_user.subscribed?(@question)
+          = link_to 'Subscribe', question_subscriptions_path(@question), method: :post, remote: true, class: 'subscribe'
+        - else
+          = link_to 'Unsubscribe', subscription_path(@subscription), method: :delete, remote: true, class: 'unsubscribe'
     = render 'shared/rating', resource: @question
     - if can?(:update, @question) || can?(:destroy, @question)
       .question_actions
