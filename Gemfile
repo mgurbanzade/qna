@@ -48,6 +48,8 @@ group :test do
   gem 'launchy'
   gem 'database_cleaner'
   gem 'json_spec'
+  gem 'whenever'
+  gem 'sidekiq'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
