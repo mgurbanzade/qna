@@ -82,4 +82,16 @@ RSpec.describe User, type: :model do
       expect(user2).to_not be_author_of(question)
     end
   end
+
+  describe "send daily digest method" do
+    let(:users) { create_list(:user, 3) }
+
+    it "finds users and sends daily digest to them" do
+      users.each do |user|
+        expect(DailyMailer).to receive(:digest).with(user).and_call_original
+      end
+
+      User.send_daily_digest
+    end
+  end
 end
