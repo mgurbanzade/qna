@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
+  it { should have_many(:subscriptions).dependent(:destroy) }
 
   describe ".find_for_oauth" do
     let!(:user) { create(:user) }
@@ -79,6 +80,18 @@ RSpec.describe User, type: :model do
 
     it "should deny that user2 is an author of the passed resource" do
       expect(user2).to_not be_author_of(question)
+    end
+  end
+
+  describe "send daily digest method" do
+    let(:users) { create_list(:user, 3) }
+
+    it "finds users and sends daily digest to them" do
+      users.each do |user|
+        expect(DailyMailer).to receive(:digest).with(user).and_call_original
+      end
+
+      User.send_daily_digest
     end
   end
 end

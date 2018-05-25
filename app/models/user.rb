@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :answers
   has_many :comments
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   def self.find_for_oauth(auth)
     authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
@@ -33,5 +34,15 @@ class User < ApplicationRecord
 
   def is_admin?
     self.admin
+  end
+
+  def subscribed?(question)
+    self.subscriptions.exists?(question: question.id)
+  end
+
+  def self.send_daily_digest
+    find_each.each do |user|
+      DailyMailer.digest(user).deliver_later
+    end
   end
 end

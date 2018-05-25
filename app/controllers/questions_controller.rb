@@ -3,6 +3,7 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: [:index, :show]
   before_action :find_question, only: [:show, :update, :destroy]
+  before_action :find_subscription, only: [:show, :update]
   after_action :publish_question, only: :create
 
   authorize_resource
@@ -49,6 +50,10 @@ class QuestionsController < ApplicationController
         locals: { question: @question }
       )
     )
+  end
+
+  def find_subscription
+    @subscription = @question.subscriptions.find_by(user: current_user)
   end
 
   def find_question
