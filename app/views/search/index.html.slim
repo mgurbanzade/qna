@@ -1,2 +1,5 @@
-= @results.each do |result|
-  = result
+- if @results.empty?
+  .nothing-found Nothing Found
+- else
+  - @results.each do |result|
+    = render 'questions/question', question: resource(result)

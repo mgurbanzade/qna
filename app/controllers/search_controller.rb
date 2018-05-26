@@ -2,6 +2,6 @@ class SearchController < ApplicationController
   skip_authorization_check
 
   def index
-    @results = ThinkingSphinx.search(@query)
+    @results = Search.query(params[:query], params[:condition])
   end
 end
