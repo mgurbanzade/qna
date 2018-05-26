@@ -5,6 +5,8 @@
 header.header
   = link_to root_path, class: 'header_logo' do
     = image_tag('logo.png')
+  .search-block
+    = render 'search/search_form'
   .user-block
     - if current_user
       = link_to 'Log out', destroy_user_session_path, method: :delete, class: 'header_logout'

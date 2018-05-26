@@ -8,6 +8,7 @@ class Question < ApplicationRecord
   has_many :subscriptions, dependent: :destroy
 
   after_create :subscribe_author
+  after_save ThinkingSphinx::RealTime.callback_for(:question)
 
   validates :title, :body, presence: true
   scope :by_last, -> { order(created_at: :desc) }
