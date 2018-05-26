@@ -27,6 +27,6 @@
 /config/master.key
 config/database.yml
 config/secrets.yml
-config/*.sphix.conf
+config/*.sphinx.conf
 db/sphinx
 dump.rdb
