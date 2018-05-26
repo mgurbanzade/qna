@@ -1,0 +1,6 @@
+= link_to question_path(resource.question), class: 'question' do
+  h2.question_title = resource.body
+  .question_body = resource.question.title
+  .question_info
+    .question_date = time(resource.question)
+    .question_author = resource.user.email

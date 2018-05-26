@@ -1,5 +1,5 @@
 class Search
-  RESOURCES = %w(All Users Questions Answers Comments)
+  RESOURCES = %w(All Questions Answers Comments)
 
   def self.query(query, resource)
     return [] unless RESOURCES.include?(resource)

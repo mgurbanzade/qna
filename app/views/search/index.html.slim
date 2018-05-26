@@ -2,4 +2,7 @@
   .nothing-found Nothing Found
 - else
   - @results.each do |result|
-    = render 'questions/question', question: resource(result)
+    - if result.is_a?(Question)
+      = render 'questions/question', question: result
+    - else
+      = render 'search/resource', resource: result
