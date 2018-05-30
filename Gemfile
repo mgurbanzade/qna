@@ -32,10 +32,11 @@ gem 'thinking-sphinx'
 gem 'dotenv'
 gem 'dotenv-deployment', require: 'dotenv/deployment'
 gem 'therubyracer'
+gem 'sidekiq'
+gem 'whenever'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'whenever'
 end
 
 group :development do
@@ -59,7 +60,6 @@ group :test do
   gem 'launchy'
   gem 'database_cleaner'
   gem 'json_spec'
-  gem 'sidekiq'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
