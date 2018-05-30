@@ -21,4 +21,6 @@ every 60.minutes do
   rake "ts:index"
 end
 
+env :PATH, ENV['PATH']
+
 # Learn more: http://github.com/javan/whenever
