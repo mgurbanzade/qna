@@ -35,6 +35,7 @@ gem 'therubyracer'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'whenever'
 end
 
 group :development do
@@ -58,7 +59,6 @@ group :test do
   gem 'launchy'
   gem 'database_cleaner'
   gem 'json_spec'
-  gem 'whenever'
   gem 'sidekiq'
 end
 
