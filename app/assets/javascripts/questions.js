@@ -3,6 +3,7 @@ $(document).on('turbolinks:load', function() {
   newQuestion();
   showSettings();
   showAttachments();
+  showComments();
 });
 
 var editForm = function() {
@@ -66,4 +67,13 @@ var showAttachments = function() {
   });
 }
 
+var showComments = function() {
+  $showCommentsBtn = $(document).find('.question-comments_show');
+  $comments = $(document).find('.question-comments');
+
+  $showCommentsBtn.on('click', function(e) {
+    e.preventDefault();
+    $comments.slideToggle();
+  });
+}
 

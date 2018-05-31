@@ -239,3 +239,11 @@
     }
   }
 }
+
+.question-comments {
+  display: none;
+
+  &_show {
+    margin-left: 20px;
+  }
+}

@@ -1,8 +1,6 @@
 = form_with model: [resource, resource.comments.new], class: 'new-comment_form' do |f|
   .errors
   .form-row
-    = f.label :body, 'Comment'
-  .form-row
-    = f.text_area :body, class: 'form-control'
-  .form-row
-    = f.submit class: 'btn btn-success'
+    = f.text_area :body, class: 'form-control', placeholder: 'What do you think?'
+  .form-row.comment_btn-row
+    = f.submit class: 'btn btn-success comment_btn', value: 'Comment'
