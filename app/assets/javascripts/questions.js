@@ -1,6 +1,8 @@
 $(document).on('turbolinks:load', function() {
   editForm();
   newQuestion();
+  showSettings();
+  showAttachments();
 });
 
 var editForm = function() {
@@ -27,3 +29,41 @@ var newQuestion = function() {
     }
   });
 }
+
+var showSettings = function() {
+  var $btn = $(document).find('.question_actions-btn');
+  var $link = $btn.siblings('ul').find('.question_action');
+  var $list = $(document).find('.question_actions-list');
+
+  $btn.on('click', function() {
+    $list.toggle()
+  });
+
+  $link.on('click', function() {
+    $list.hide();
+  });
+
+  $(document).on('click', function(e) {
+    $target = $(e.target);
+
+    if (!$target.is($btn) &&
+        !$target.is($link) &&
+        !$target.is('path') &&
+        !$target.is('svg')) {
+      $list.hide();
+    }
+  });
+}
+
+var showAttachments = function() {
+  var $showBtn = $(document).find('.question_attachments-show');
+  var $attachmentsList = $(document).find('.question_attachments');
+
+  $showBtn.on('click', function(e) {
+    e.preventDefault();
+    $attachmentsList.slideToggle();
+    $attachmentsList.css('display', 'flex');
+  });
+}
+
+
