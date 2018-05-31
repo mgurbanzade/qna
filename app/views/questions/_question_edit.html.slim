@@ -27,9 +27,9 @@
             = link_to 'Subscribe', question_subscriptions_path(@question), method: :post, remote: true, class: 'subscribe'
           - else
             = link_to 'Unsubscribe', subscription_path(@subscription), method: :delete, remote: true, class: 'unsubscribe'
-    - unless @question.comments.nil?
+    - unless @question.comments.empty?
       a.question-comments_show href='#' = "Show comments (#{@question.comments.size})"
-    - unless @question.attachments.nil?
+    - unless @question.attachments.empty?
       a.question_attachments-show href='#' = "Show attachments (#{@question.attachments.size})"
   .question_attachments-block
     ul.question_attachments
