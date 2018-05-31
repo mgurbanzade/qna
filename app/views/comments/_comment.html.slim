@@ -1,1 +1,3 @@
-div class="comment comment-#{comment.id}" = comment.body
+div class="comment comment-#{comment.id}"
+  .comment_body = comment.body
+  .comment_user = comment.user.email
