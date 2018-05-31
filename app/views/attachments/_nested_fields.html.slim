@@ -1,4 +1,4 @@
 .nested-fields
-  = f.label :file
-  = f.file_field :file
+  = f.label :file, class: 'file-input_label'
+    = f.file_field :file
   = link_to_remove_association "Delete", f, class: "delete_attachment"

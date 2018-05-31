@@ -1,0 +1,31 @@
+.comment {
+  background-color: #eee;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+
+  &:nth-of-type(odd) {
+    margin-right: 5%;
+  }
+
+  &:nth-of-type(even) {
+    margin-left: 5%;
+  }
+
+  &_user {
+    color: darkgrey;
+  }
+}
+
+.new-comment_form {
+  margin-top: 40px;
+  margin-bottom: 20px;
+
+  .form-row {
+    margin: 0;
+  }
+
+  .comment_btn {
+    margin-top: 10px;
+  }
+}
