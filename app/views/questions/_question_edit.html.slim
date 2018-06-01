@@ -42,7 +42,7 @@
                 = image_tag(a.file.url, class: 'question_attachments-image')
               - if can?(:destroy, a)
                 = link_to attachment_path(a), method: :delete, data: { confirm: 'Are you sure?', remote: true }, class: 'question_attachments-delete' do
-                 i.fas.fa-times-circle
+                  i.fas.fa-times-circle
     .form-actions
       = f.submit 'Update', class: 'btn btn-success question_submit-form'
       = link_to 'Cancel', question_path(@question), class: 'btn btn-danger question_cancel-editing'

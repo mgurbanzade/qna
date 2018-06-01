@@ -36,7 +36,8 @@
             = link_to a.file.url, class: 'answer_attachments-attachment', target: '_blank' do
               = image_tag(a.file.url, class: 'answer_attachments-image')
             - if can?(:destroy, a)
-              = link_to 'Delete attachment', attachment_path(a), method: :delete, data: { confirm: 'Are you sure?', remote: true }
+              = link_to attachment_path(a), method: :delete, data: { confirm: 'Are you sure?', remote: true }, class: 'answer_attachments-delete' do
+                i.fas.fa-times-circle
     .answer_comments-block
       .answer-comments
         = render answer.comments
