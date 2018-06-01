@@ -1,3 +1,5 @@
+- show_comments = @question.comments.empty? ? "Comment" : "Show comments (#{@question.comments.size})"
+
 - cache @question do
   = form_with model: @question, class: 'question_edit-form' do |f|
     = render 'shared/errors', resource: @question
@@ -28,8 +30,7 @@
               = link_to 'Subscribe', question_subscriptions_path(@question), method: :post, remote: true, class: 'subscribe'
             - else
               = link_to 'Unsubscribe', subscription_path(@subscription), method: :delete, remote: true, class: 'unsubscribe'
-      - unless @question.comments.empty?
-        a.question-comments_show href='#' = "Show comments (#{@question.comments.size})"
+      a.question-comments_show href='#' = show_comments
       - unless @question.attachments.empty?
         a.question_attachments-show href='#' = "Show attachments (#{@question.attachments.size})"
     .question_attachments-block

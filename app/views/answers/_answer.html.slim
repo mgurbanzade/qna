@@ -1,3 +1,6 @@
+- show_comments = answer.comments.empty? ? "Comment" : "Show comments (#{answer.comments.size})"
+
+
 - cache answer do
   .answer class=("answer_#{answer.id}") class=('best_answer' if answer.best?)
     .answer_row
@@ -23,8 +26,7 @@
             li = link_to 'Edit answer', '', class: 'answer_edit-btn', data: { answer_id: answer.id }
             li = link_to 'Delete answer', answer, method: :delete, data: { confirm: 'Are you sure?', remote: true }, class: 'answer_delete-btn'
     .answer-actions_row
-      - unless answer.comments.empty?
-        a.answer-comments_show href='#' = "Show comments (#{answer.comments.size})"
+      a.answer-comments_show href='#' = show_comments
       - unless answer.attachments.empty?
         a.answer_attachments-show href='#' = "Show attachments (#{answer.attachments.size})"
     .answer_attachments-block

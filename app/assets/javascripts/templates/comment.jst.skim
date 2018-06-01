@@ -1,4 +1,7 @@
 - id = @data['id']
 - body = @data['body']
+- email = @data['user_email']
 
-div class="comment comment-#{id}" = body
+div class="comment comment-#{id}"
+  .comment_body = body
+  .comment_user = email

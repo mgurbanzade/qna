@@ -18,7 +18,8 @@ class CommentsController < ActionController::Base
 
   def publish_comment
     return if @comment.errors.any?
-    ActionCable.server.broadcast("question-#{question_id}", data: @comment.as_json )
+    data = @comment.as_json.merge(user_email: @comment.user.email)
+    ActionCable.server.broadcast("question-#{question_id}", data: data )
   end
 
   def question_id
