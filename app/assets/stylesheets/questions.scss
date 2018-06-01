@@ -28,6 +28,15 @@
         }
       }
     }
+
+    .nested-fields {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .add_fields {
+      margin-left: 20px;
+    }
   }
 }
 
