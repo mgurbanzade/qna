@@ -38,4 +38,5 @@
     .answer_comments-block
       .answer-comments
         = render answer.comments
-        = render 'comments/new', resource: answer
+        - if can?(:create, Comment)
+          = render 'comments/new', resource: answer
