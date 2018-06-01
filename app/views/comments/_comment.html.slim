@@ -1,3 +1,4 @@
-div class="comment comment-#{comment.id}"
-  .comment_body = comment.body
-  .comment_user = comment.user.email
+- cache comment do
+  div class="comment comment-#{comment.id}"
+    .comment_body = comment.body
+    .comment_user = comment.user.email
