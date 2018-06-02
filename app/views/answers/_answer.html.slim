@@ -1,40 +1,45 @@
-.answer class=("answer_#{answer.id}") class=('best_answer' if answer.best?)
-  .answer_row
-    .answer_container
-      .answer_body = answer.body
-      = form_with model: answer, remote: true, class: 'answer_edit-form', id: "edit-answer-#{answer.id}" do |f|
-        = f.label :body
-        = f.text_area :body, class: 'form-control'
-        = f.submit 'Update', class: 'btn btn-success answer_update'
-      .answer_info
-        .answer_date = time(answer)
-        .answer_author = answer.user.email
-    .answer_actions
-      = render 'shared/rating', resource: answer
-      - if can?(:best_answer, answer)
-        .answer_toggle-best
-          = link_to "#{answer.best ? 'Remove best flag' : 'Mark as best'}", best_answer_answer_url(answer), class: 'btn btn-info answer_best', method: :patch, remote: true
-      - if can?(:update, answer) || can?(:destroy, answer)
-        .answer_settings
-          a.answer_actions-btn
-            i.fas.fa-cog
-        ul.answer_actions-list
-          li = link_to 'Edit answer', '', class: 'answer_edit-btn', data: { answer_id: answer.id }
-          li = link_to 'Delete answer', answer, method: :delete, data: { confirm: 'Are you sure?', remote: true }, class: 'answer_delete-btn'
-  .answer-actions_row
-    - unless answer.comments.empty?
-      a.answer-comments_show href='#' = "Show comments (#{answer.comments.size})"
-    - unless answer.attachments.empty?
-      a.answer_attachments-show href='#' = "Show attachments (#{answer.attachments.size})"
-  .answer_attachments-block
-    ul.answer_attachments
-      - answer.attachments.each do |a|
-        li class=("attachment_#{a.id}")
-          = link_to a.file.url, class: 'answer_attachments-attachment', target: '_blank' do
-            = image_tag(a.file.url, class: 'answer_attachments-image')
-          - if can?(:destroy, a)
-            = link_to 'Delete attachment', attachment_path(a), method: :delete, data: { confirm: 'Are you sure?', remote: true }
-  .answer_comments-block
-    .answer-comments
-      = render answer.comments
-      = render 'comments/new', resource: answer
+- show_comments = answer.comments.empty? ? "Comment" : "Show comments (#{answer.comments.size})"
+
+
+- cache answer do
+  .answer class=("answer_#{answer.id}") class=('best_answer' if answer.best?)
+    .answer_row
+      .answer_container
+        .answer_body = answer.body
+        = form_with model: answer, remote: true, class: 'answer_edit-form', id: "edit-answer-#{answer.id}" do |f|
+          = f.label :body
+          = f.text_area :body, class: 'form-control'
+          = f.submit 'Update', class: 'btn btn-success answer_update'
+        .answer_info
+          .answer_date = time(answer)
+          .answer_author = answer.user.email
+      .answer_actions
+        = render 'shared/rating', resource: answer
+        - if can?(:best_answer, answer)
+          .answer_toggle-best
+            = link_to "#{answer.best ? 'Remove best flag' : 'Mark as best'}", best_answer_answer_url(answer), class: 'btn btn-info answer_best', method: :patch, remote: true
+        - if can?(:update, answer) || can?(:destroy, answer)
+          .answer_settings
+            a.answer_actions-btn
+              i.fas.fa-cog
+          ul.answer_actions-list
+            li = link_to 'Edit answer', '', class: 'answer_edit-btn', data: { answer_id: answer.id }
+            li = link_to 'Delete answer', answer, method: :delete, data: { confirm: 'Are you sure?', remote: true }, class: 'answer_delete-btn'
+    .answer-actions_row
+      a.answer-comments_show href='#' = show_comments
+      - unless answer.attachments.empty?
+        a.answer_attachments-show href='#' = "Show attachments (#{answer.attachments.size})"
+    .answer_attachments-block
+      ul.answer_attachments
+        - answer.attachments.each do |a|
+          li class=("attachment_#{a.id}")
+            = link_to a.file.url, class: 'answer_attachments-attachment', target: '_blank' do
+              = image_tag(a.file.url, class: 'answer_attachments-image')
+            - if can?(:destroy, a)
+              = link_to attachment_path(a), method: :delete, data: { confirm: 'Are you sure?', remote: true }, class: 'answer_attachments-delete' do
+                i.fas.fa-times-circle
+    .answer_comments-block
+      .answer-comments
+        = render answer.comments
+        - if can?(:create, Comment)
+          = render 'comments/new', resource: answer

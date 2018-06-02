@@ -1,19 +1,20 @@
-.question-container
-  .question class=("question_#{@question.id}") data-id="#{@question.id}"
-    = render 'questions/question_edit'
-    .question-comments
-      = render @question.comments
-      - if can?(:create, Comment)
-        = render 'comments/new', resource: @question
-    = render 'questions/answers', question: @question
-    - if can?(:create, Answer)
-      .new_answer
-        .errors
-        = form_with model: [@question, @answer] do |f|
-          = render 'shared/errors', resource: @answer
-          = f.text_area :body, resize: 'disable', cols: 10, rows: 10, class: 'form-control input_body', placeholder: 'Write some text...'
-          .form-row.answer_choose-attachment
-            = f.fields_for :attachments do |a|
-              = render 'attachments/nested_fields', f: a
-              = link_to_add_association 'Attach file', f, :attachments, partial: 'attachments/nested_fields'
-          = f.submit 'Reply', class: 'btn btn-success'
+- cache @question do
+  .question-container
+    .question class=("question_#{@question.id}") data-id="#{@question.id}"
+      = render 'questions/question_edit'
+      .question-comments
+        = render @question.comments
+        - if can?(:create, Comment)
+          = render 'comments/new', resource: @question
+      = render 'questions/answers', question: @question
+      - if can?(:create, Answer)
+        .new_answer
+          .errors
+          = form_with model: [@question, @answer] do |f|
+            = render 'shared/errors', resource: @answer
+            = f.text_area :body, resize: 'disable', cols: 10, rows: 10, class: 'form-control input_body', placeholder: 'Write some text...'
+            .form-row.answer_choose-attachment
+              = f.fields_for :attachments do |a|
+                = render 'attachments/nested_fields', f: a
+                = link_to_add_association 'Attach file', f, :attachments, partial: 'attachments/nested_fields'
+            = f.submit 'Reply', class: 'btn btn-success'
