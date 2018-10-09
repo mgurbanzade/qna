@@ -1,24 +1,17 @@
-# README
+# QnA
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* CRUD actions
 
-Things you may want to cover:
+* Ajax
 
-* Ruby version
+* API
 
-* System dependencies
+* Oauth
 
-* Configuration
+* File uploading
 
-* Database creation
+* Action Cable
 
-* Database initialization
+* Specs
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Background jobs
